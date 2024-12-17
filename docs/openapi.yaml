@@ -1,0 +1,621 @@
+# Swaggerの起動: Opt + Shift + p
+openapi: "3.0.3"
+
+info:
+  title: twitter-clone-gin
+  version: 1.0.0
+
+paths:
+  /api/signup:
+    description: signup user
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: test-user
+                email:
+                  type: string
+                  example: test@test.com
+                password:
+                  type: string
+                  example: Ppppppppp1
+      responses:
+        201:
+          description: Created
+  /api/login:
+    description: login
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: test@test.com
+                password:
+                  type: string
+                  example: Ppppppppp1
+      responses:
+        200:
+          description: OK
+  /api/user/{user_id}:
+    description: get user info
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: test-user
+                  password:
+                    type: string
+                    example: Ppppppppp1
+                  display_name:
+                    type: string
+                    example: test
+                  avator:
+                    type: string
+                    example: image
+                  profile_image:
+                    type: string
+                    example: profile_image
+                  bio:
+                    type: string
+                    example: test userです
+                  location:
+                    type: string
+                    example: 東京
+                  website:
+                    type: string
+                    example: http://localhost:3000
+                  created_at:
+                    description: time
+                    example: 2024-12-17
+                  updateed_at:
+                    description: time
+                    example: 2024-12-17
+                  tweets:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          content: "test",
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          user_id: 1,
+                          user:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                        },
+                        {},
+                      ]
+                  favorites:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          user_id: 1,
+                          tweet_id: 1,
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          user:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          tweet:
+                            {
+                              id: 1,
+                              content: "test",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              userId: 1,
+                              user:
+                                {
+                                  id: 1,
+                                  name: "test",
+                                  password: "Ppppppppp1",
+                                  display_name: "test",
+                                  avator: "image",
+                                  profile_image: "profile_image",
+                                  bio: "test userです",
+                                  location: "東京",
+                                  website: "http://localhost:3000",
+                                  created_at: 2024-12-17,
+                                  updated_at: 2024-12-17,
+                                  tweets: null,
+                                  favorites: null,
+                                  comments: null,
+                                  retweets: null,
+                                  followers: null,
+                                  followeds: null,
+                                },
+                            },
+                        },
+                        {},
+                      ]
+                  comments:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          comment: "test",
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          user_id: 1,
+                          tweet_id: 1,
+                          user:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          tweet:
+                            {
+                              id: 1,
+                              content: "test",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              userId: 1,
+                              user:
+                                {
+                                  id: 1,
+                                  name: "test",
+                                  password: "Ppppppppp1",
+                                  display_name: "test",
+                                  avator: "image",
+                                  profile_image: "profile_image",
+                                  bio: "test userです",
+                                  location: "東京",
+                                  website: "http://localhost:3000",
+                                  created_at: 2024-12-17,
+                                  updated_at: 2024-12-17,
+                                  tweets: null,
+                                  favorites: null,
+                                  comments: null,
+                                  retweets: null,
+                                  followers: null,
+                                  followeds: null,
+                                },
+                            },
+                        },
+                        {},
+                      ]
+                  retweets:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          user_id: 1,
+                          tweet_id: 1,
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          user:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          tweet:
+                            {
+                              id: 1,
+                              content: "test",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              userId: 1,
+                              user:
+                                {
+                                  id: 1,
+                                  name: "test",
+                                  password: "Ppppppppp1",
+                                  display_name: "test",
+                                  avator: "image",
+                                  profile_image: "profile_image",
+                                  bio: "test userです",
+                                  location: "東京",
+                                  website: "http://localhost:3000",
+                                  created_at: 2024-12-17,
+                                  updated_at: 2024-12-17,
+                                  tweets: null,
+                                  favorites: null,
+                                  comments: null,
+                                  retweets: null,
+                                  followers: null,
+                                  followeds: null,
+                                },
+                            },
+                        },
+                        {},
+                      ]
+                  followers:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          follower_id: 1,
+                          followed_id: 2,
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          follower:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          followed:
+                            {
+                              id: 2,
+                              name: "test2",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test user2です",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                        },
+                        {},
+                      ]
+                  followeds:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          follower_id: 1,
+                          followed_id: 2,
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          follower:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          followed:
+                            {
+                              id: 2,
+                              name: "test2",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test user2です",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                        },
+                        {},
+                      ]
+  /api/logout:
+    description: logout
+    post:
+      responses:
+        200:
+          description: OK
+  /api/user/{user_id}/delete:
+    description: delete user
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: test@test.com
+      responses:
+        200:
+          description: Success
+  /api/tweets:
+    description: get all tweets
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tweets:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          content: "test",
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          user_id: 1,
+                          user:
+                            {
+                              id: 1,
+                              name: "test",
+                              password: "Ppppppppp1",
+                              display_name: "test",
+                              avator: "image",
+                              profile_image: "profile_image",
+                              bio: "test userです",
+                              location: "東京",
+                              website: "http://localhost:3000",
+                              created_at: 2024-12-17,
+                              updated_at: 2024-12-17,
+                              tweets: null,
+                              favorites: null,
+                              comments: null,
+                              retweets: null,
+                              followers: null,
+                              followeds: null,
+                            },
+                          favorites:
+                            [
+                              {
+                                id: 1,
+                                user_id: 1,
+                                tweet_id: 1,
+                                created_at: 2024-12-17,
+                                updated_at: 2024-12-17,
+                                user: null,
+                                tweet: null,
+                              },
+                              {},
+                            ],
+                          comments:
+                            [
+                              {
+                                id: 1,
+                                comment: "tst",
+                                created_at: 2024-12-17,
+                                updated_at: 2024-12-17,
+                                user_id: 1,
+                                tweet_id: 1,
+                                user:
+                                  {
+                                    id: 1,
+                                    name: "test",
+                                    password: "Ppppppppp1",
+                                    display_name: "test",
+                                    avator: "image",
+                                    profile_image: "profile_image",
+                                    bio: "test userです",
+                                    location: "東京",
+                                    website: "http://localhost:3000",
+                                    created_at: 2024-12-17,
+                                    updated_at: 2024-12-17,
+                                    tweets: null,
+                                    favorites: null,
+                                    comments: null,
+                                    retweets: null,
+                                    followers: null,
+                                    followeds: null,
+                                  },
+                                tweet:
+                                  {
+                                    id: 1,
+                                    content: "test",
+                                    created_at: 2024-12-17,
+                                    updated_at: 2024-12-17,
+                                    user:
+                                      {
+                                        id: 1,
+                                        name: "test",
+                                        password: "Ppppppppp1",
+                                        display_name: "test",
+                                        avator: "image",
+                                        profile_image: "profile_image",
+                                        bio: "test userです",
+                                        location: "東京",
+                                        website: "http://localhost:3000",
+                                        created_at: 2024-12-17,
+                                        updated_at: 2024-12-17,
+                                        tweets: null,
+                                        favorites: null,
+                                        comments: null,
+                                        retweets: null,
+                                        followers: null,
+                                        followeds: null,
+                                      },
+                                    favorites: null,
+                                    comments: null,
+                                    retweets: null,
+                                    bookmarks: null,
+                                  },
+                              },
+                            ],
+                          retweets:
+                            [
+                              {
+                                id: 1,
+                                user_id: 1,
+                                tweet_id: 1,
+                                created_at: 2024-12-17,
+                                updated_at: 2024-12-17,
+                                user:
+                                  {
+                                    id: 1,
+                                    name: "test",
+                                    password: "Ppppppppp1",
+                                    display_name: "test",
+                                    avator: "image",
+                                    profile_image: "profile_image",
+                                    bio: "test userです",
+                                    location: "東京",
+                                    website: "http://localhost:3000",
+                                    created_at: 2024-12-17,
+                                    updated_at: 2024-12-17,
+                                    tweets: null,
+                                    favorites: null,
+                                    comments: null,
+                                    retweets: null,
+                                    followers: null,
+                                    followeds: null,
+                                  },
+                                tweet:
+                                  {
+                                    id: 1,
+                                    content: "test",
+                                    created_at: 2024-12-17,
+                                    updated_at: 2024-12-17,
+                                    user_id: 1,
+                                    user: null,
+                                    favorites: null,
+                                    comments: null,
+                                    retweets: null,
+                                    bookmarks: null,
+                                  },
+                              },
+                            ],
+                          bookmarks:
+                            [
+                              {
+                                id: 1,
+                                user_id: 1,
+                                tweet_id: 1,
+                                created_at: 2024-12-17,
+                                updated_at: 2024-12-17,
+                                user: null,
+                                tweet: null,
+                              },
+                            ],
+                        },
+                        {},
+                      ]
