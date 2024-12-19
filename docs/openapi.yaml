@@ -6,6 +6,20 @@ info:
   version: 1.0.0
 
 paths:
+  /api/csrf:
+    description: create csrf token
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  csrf_token:
+                    type: string
+                    example: "thfnncnar3nv93n"
   /api/signup:
     description: signup user
     post:
@@ -45,7 +59,7 @@ paths:
       responses:
         200:
           description: OK
-  /api/user/{user_id}:
+  /api/users/{user_id}:
     description: get user info
     parameters:
       - name: user_id
@@ -424,7 +438,7 @@ paths:
       responses:
         200:
           description: OK
-  /api/user/{user_id}/delete:
+  /api/users/{user_id}/delete:
     description: delete user
     parameters:
       - name: user_id
@@ -442,6 +456,42 @@ paths:
                 email:
                   type: string
                   example: test@test.com
+      responses:
+        200:
+          description: Success
+  /api/users/{user_id}/edit:
+    description: edit user info
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name:
+                  type: string
+                  example: "test"
+                avator:
+                  type: string
+                  example: "avator"
+                profile_image:
+                  type: string
+                  example: "profile_image"
+                bio:
+                  type: string
+                  example: "bio"
+                location:
+                  type: string
+                  example: "location"
+                website:
+                  type: string
+                  example: "web"
       responses:
         200:
           description: Success
@@ -618,4 +668,452 @@ paths:
                             ],
                         },
                         {},
+                      ]
+  /api/tweets/{tweet_id}:
+    description: show tweet content
+    parameters:
+      - name: tweet_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "test"
+                  user_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    description: time
+                    example: 2024-12-18
+                  updated_at:
+                    description: time
+                    example: 2024-12-18
+                  user:
+                    type: object
+                    example: {}
+                  favorites:
+                    type: array
+                    example: []
+                  comments:
+                    type: array
+                    example: []
+                  retweets:
+                    type: array
+                    example: []
+                  bookmarks:
+                    type: array
+                    example: []
+  /api/tweets/{tweet_id}/delete:
+    description: delete tweet
+    parameters:
+      - name: tweet_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    delete:
+      responses:
+        200:
+          description: Success
+  /api/tweets/{tweet_id}/{visited_id}/favorite:
+    description: add favorite
+    parameters:
+      - name: tweet_id
+        in: path
+        schema:
+          type: integer
+        required: true
+      - name: visited_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      responses:
+        201:
+          description: Created
+  /api/tweets/{tweet_id}/{visited_id}/retweet:
+    description: add retweet
+    parameters:
+      - name: tweet_id
+        in: path
+        schema:
+          type: integer
+        required: true
+      - name: visited_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      responses:
+        201:
+          description: Created
+  /api/tweets/{tweet_id}/bookmark:
+    description: add bookmark
+    parameters:
+      - name: tweet_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      responses:
+        201:
+          description: Created
+  /api/tweet:
+    description: post tweet
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: "test content"
+      responses:
+        201:
+          description: Created
+  /api/bookmarks:
+    description: get my bookmarks
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookmarks:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          user_id: 1,
+                          tweet_id: 1,
+                          created_at: 2024-12-18,
+                          updated_at: 2024-12-18,
+                          user: {},
+                          tweet: {},
+                        },
+                        {},
+                      ]
+  /api/{visited_id}/comment:
+    description: post comment
+    parameters:
+      - name: visited_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  example: "test comment"
+                tweet_id:
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: OK
+  /api/users/{user_id}/follow:
+    description: create and delete follow
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      responses:
+        200:
+          description: Success
+    delete:
+      responses:
+        200:
+          description: Success
+  /api/users/{user_id}/followers:
+    description: get followers
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  followers:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          name: "test",
+                          password: "Ppppppppp1",
+                          display_name: "test",
+                          avator: "image",
+                          profile_image: "profile_image",
+                          bio: "test userです",
+                          location: "東京",
+                          website: "http://localhost:3000",
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          tweets: null,
+                          favorites: null,
+                          comments: null,
+                          retweets: null,
+                          followers: null,
+                          followeds: null,
+                        },
+                      ]
+  /api/users/{user_id}/followeds:
+    description: get followers
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  followeds:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          name: "test",
+                          password: "Ppppppppp1",
+                          display_name: "test",
+                          avator: "image",
+                          profile_image: "profile_image",
+                          bio: "test userです",
+                          location: "東京",
+                          website: "http://localhost:3000",
+                          created_at: 2024-12-17,
+                          updated_at: 2024-12-17,
+                          tweets: null,
+                          favorites: null,
+                          comments: null,
+                          retweets: null,
+                          followers: null,
+                          followeds: null,
+                        },
+                      ]
+  /api/entry:
+    description: create entry
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  example: 1
+                room_id:
+                  type: integer
+                  example: 1
+      responses:
+        201:
+          description: Created
+  /api/entry/{user_id}:
+    description: get entry by user_id
+    parameters:
+      - name: user_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          user_id: 1,
+                          room_id: 1,
+                          created_at: 2024-12-19,
+                          updated_at: 2024-12-19,
+                          user: {},
+                        },
+                      ]
+  /api/entry/{room_id}:
+    description: get entry by user_id and room_id
+    parameters:
+      - name: room_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entry:
+                    type: object
+                    example:
+                      {
+                        id: 1,
+                        user_id: 1,
+                        room_id: 1,
+                        created_at: 2024-12-19,
+                        updated_at: 2024-12-19,
+                        user: {},
+                      }
+  /api/rooms:
+    description: Get Rooms
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rooms:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          created_at: 2024-12-19,
+                          updated_at: 2024-12-19,
+                          entries: [],
+                          messages: [],
+                        },
+                      ]
+    post:
+      responses:
+        201:
+          description: Created
+  /api/rooms/{room_id}/message:
+    description: Create a message
+    parameters:
+      - name: room_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: "first message"
+      responses:
+        201:
+          description: Created
+  /api/rooms/{room_id}/messages:
+    description: Get Messages
+    parameters:
+      - name: room_id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          user_id: 1,
+                          room_id: 1,
+                          message: "string",
+                          created_at: 2024-12-19,
+                          updated_at: 2024-12-19,
+                          user: {},
+                        },
+                      ]
+  /api/notifications:
+    description: get notifications
+    get:
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    example:
+                      [
+                        {
+                          id: 1,
+                          visitor_id: 1,
+                          visited_id: 2,
+                          tweet_id: 1,
+                          action: "comment",
+                          read: false,
+                          visitor: {},
+                        },
                       ]
