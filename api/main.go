@@ -1,18 +1,26 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"gin-twitter/controllers"
+	"gin-twitter/db"
+	"gin-twitter/repositories"
+	"gin-twitter/router"
+	"gin-twitter/usecases"
+	"gin-twitter/validators"
+	"log"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/api/data", func(c *gin.Context) {
-		response := gin.H{
-			"message": "Hello World!",
-		}
-		c.JSON(http.StatusOK, response)
-	})
-	r.Run()
+	db := db.NewDB()
+
+	userValidator := validators.NewUserValidator()
+
+	userRepository := repositories.NewUserRepository(db)
+	userUsecase := usecases.NewUserUsecase(userRepository, userValidator)
+	userController := controllers.NewUserController(userUsecase)
+
+	r := router.NewRouter(userController)
+
+	log.Println("Server Started")
+	r.Run(":8080")
 }
