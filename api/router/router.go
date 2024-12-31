@@ -14,10 +14,11 @@ import (
 
 func NewRouter(uc controllers.IUserController) *gin.Engine {
 	r := gin.Default()
-	r.Use(gin.Logger())
+	api := r.Group("/api")
+	api.Use(gin.Logger())
 
 	// CORS
-	r.Use(cors.New(cors.Config{
+	api.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
 			// os.Getenv("FE_URL"),
@@ -42,9 +43,9 @@ func NewRouter(uc controllers.IUserController) *gin.Engine {
 		AllowCredentials: true,
 	}))
 
-	r.Use(sessions.Sessions("mysession", cookie.NewStore([]byte("secret"))))
+	api.Use(sessions.Sessions("mysession", cookie.NewStore([]byte("secret"))))
 	// CSRF
-	r.Use(csrf.Middleware(csrf.Options{
+	api.Use(csrf.Middleware(csrf.Options{
 		// Secret: CSRFトークンの署名に使用するシークレットを設定します。ランダムな強力な文字列を設定してください。
 		Secret: os.Getenv("SECRET"),
 		// IgnoreMethods: CSRFトークンを検証しないHTTPメソッドを指定できます。
@@ -60,9 +61,9 @@ func NewRouter(uc controllers.IUserController) *gin.Engine {
 		},
 	}))
 
-	r.POST("/signup", uc.SignUp)
-	r.POST("/login", uc.LogIn)
-	r.GET("/csrf", uc.CsrfToken)
+	api.POST("/signup", uc.SignUp)
+	api.POST("/login", uc.LogIn)
+	api.GET("/csrf", uc.CsrfToken)
 
 	return r
 }
