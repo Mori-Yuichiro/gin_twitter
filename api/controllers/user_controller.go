@@ -7,11 +7,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	csrf "github.com/utrack/gin-csrf"
 )
 
 type IUserController interface {
 	SignUp(c *gin.Context)
 	LogIn(c *gin.Context)
+	CsrfToken(c *gin.Context)
 }
 
 type userController struct {
@@ -50,16 +52,6 @@ func (uc *userController) LogIn(c *gin.Context) {
 		return
 	}
 
-	// cookie := new(http.Cookie)
-	// cookie.Name = "token"
-	// cookie.Value = tokenString
-	// cookie.Expires = time.Now().Add(12 * time.Hour)
-	// cookie.Path = "/"
-	// cookie.Domain = os.Getenv("API_DOMAIN")
-	// cookie.Secure = true
-	// cookie.HttpOnly = true
-	// cookie.SameSite = http.SameSiteNoneMode
-
 	c.SetSameSite(http.SameSiteNoneMode)
 	// SetCookie(name string, value string, maxAge int, path string, domain string, secure bool, httpOnly bool)
 	c.SetCookie(
@@ -73,4 +65,11 @@ func (uc *userController) LogIn(c *gin.Context) {
 	)
 
 	c.JSON(http.StatusOK, gin.H{"status": "OK"})
+}
+
+func (uc *userController) CsrfToken(c *gin.Context) {
+	token := csrf.GetToken(c)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("_csrf", token, 3600, "/", os.Getenv("API_DOMAIN"), true, true)
+	c.JSON(http.StatusOK, gin.H{"csrf_token": token})
 }
