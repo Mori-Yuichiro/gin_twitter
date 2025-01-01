@@ -6,10 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { useErrorHook } from "../error/useErrorHook";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export const useSignUpModalHook = () => {
     const openSignUpModal = useAppSelector(state => state.slice.openSignUpModal);
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     const { instance } = axiosInstance();
 
@@ -37,13 +41,15 @@ export const useSignUpModalHook = () => {
                     { email, password },
                     { withCredentials: true }
                 );
-                if (resLogIn.status === 200) {
-                    const router = useRouter();
-                    router.push("/top");
-                }
+                if (resLogIn.status === 200) router.push("/top");
             }
         } catch (err) {
-            console.log(err);
+            const { switchErrorHandling } = useErrorHook();
+            if (err instanceof AxiosError) {
+                toast(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                toast(switchErrorHandling(err.message));
+            }
         }
     }, [])
 
