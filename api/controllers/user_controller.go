@@ -69,6 +69,7 @@ func (uc *userController) LogIn(c *gin.Context) {
 
 func (uc *userController) CsrfToken(c *gin.Context) {
 	token := csrf.GetToken(c)
-	c.SetCookie("_csrf", token, 3600, "/", os.Getenv("API_DOMAIN"), false, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("_csrf", token, 3600, "/", os.Getenv("API_DOMAIN"), true, true)
 	c.JSON(http.StatusOK, gin.H{"csrf_token": token})
 }

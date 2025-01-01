@@ -14,21 +14,19 @@ import (
 
 func NewRouter(uc controllers.IUserController) *gin.Engine {
 	r := gin.Default()
-	api := r.Group("/api")
-	api.Use(gin.Logger())
 
 	// CORS
-	api.Use(cors.New(cors.Config{
+	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
-			"http://localhost:3000",
-			// os.Getenv("FE_URL"),
+			os.Getenv("FE_URL"),
 		},
 		AllowHeaders: []string{
 			"Origin",
+			"Content-Type",
 			"Accept",
 			"Access-Control-Allow-Headers",
-			"Content-Type",
-			"X-CSRF-Token",
+			"X-CSRF-TOKEN",
+			"Access-Control-Allow-Origin",
 			// "Access-Control-Allow-Credentials",
 			// "Content-Length",
 			// "Accept-Encoding",
@@ -39,9 +37,13 @@ func NewRouter(uc controllers.IUserController) *gin.Engine {
 			"POST",
 			"PUT",
 			"DELETE",
+			"OPTIONS",
 		},
 		AllowCredentials: true,
 	}))
+
+	api := r.Group("/api")
+	api.Use(gin.Logger())
 
 	api.Use(sessions.Sessions("mysession", cookie.NewStore([]byte("secret"))))
 	// CSRF
