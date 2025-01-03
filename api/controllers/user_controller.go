@@ -13,6 +13,7 @@ import (
 type IUserController interface {
 	SignUp(c *gin.Context)
 	LogIn(c *gin.Context)
+	LogOut(c *gin.Context)
 	CsrfToken(c *gin.Context)
 }
 
@@ -65,6 +66,20 @@ func (uc *userController) LogIn(c *gin.Context) {
 	)
 
 	c.JSON(http.StatusOK, gin.H{"status": "OK"})
+}
+
+func (uc *userController) LogOut(c *gin.Context) {
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie(
+		"token",
+		"",
+		0,
+		"/",
+		os.Getenv("API_DOMAIN"),
+		true,
+		true,
+	)
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
 func (uc *userController) CsrfToken(c *gin.Context) {
