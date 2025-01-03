@@ -1,11 +1,12 @@
 import { getCsrfToken } from "@/lib/csrf_token";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { toggleSignupModal } from "@/store/slice/slice";
+import { toggleLogInModal, toggleSignupModal } from "@/store/slice/slice";
 import axios from "axios";
 import { useEffect } from "react";
 
 export const useHomeHook = () => {
     const openSignUpModal = useAppSelector(state => state.slice.openSignUpModal);
+    const openLogInModal = useAppSelector(state => state.slice.openLogInModal);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -23,6 +24,8 @@ export const useHomeHook = () => {
 
     return {
         openSignUpModal,
-        setOpenSignUpModal: () => dispatch(toggleSignupModal(!openSignUpModal))
+        setOpenSignUpModal: () => dispatch(toggleSignupModal(!openSignUpModal)),
+        openLogInModal,
+        setOpenLogInModal: () => dispatch(toggleLogInModal(!openLogInModal))
     };
 }
