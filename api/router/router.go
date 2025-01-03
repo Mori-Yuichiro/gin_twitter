@@ -2,6 +2,7 @@ package router
 
 import (
 	"gin-twitter/controllers"
+	"gin-twitter/middlewares"
 	"net/http"
 	"os"
 
@@ -12,7 +13,10 @@ import (
 	csrf "github.com/utrack/gin-csrf"
 )
 
-func NewRouter(uc controllers.IUserController) *gin.Engine {
+func NewRouter(
+	uc controllers.IUserController,
+	tc controllers.ITweetController,
+) *gin.Engine {
 	r := gin.Default()
 
 	// CORS
@@ -65,7 +69,14 @@ func NewRouter(uc controllers.IUserController) *gin.Engine {
 
 	api.POST("/signup", uc.SignUp)
 	api.POST("/login", uc.LogIn)
+	api.POST("/logout", uc.LogOut)
 	api.GET("/csrf", uc.CsrfToken)
+
+	tweet := api.Group("/tweets")
+	tweet.Use(middlewares.AuthMiddleware)
+	{
+		tweet.POST("", tc.CreateTweet)
+	}
 
 	return r
 }

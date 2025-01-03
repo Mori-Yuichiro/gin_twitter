@@ -12,5 +12,6 @@ func main() {
 	defer db.CloseDB(dbConn)
 	dbConn.AutoMigrate(
 		&models.User{},
+		&models.Tweet{},
 	)
 }
