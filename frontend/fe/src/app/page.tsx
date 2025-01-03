@@ -1,13 +1,16 @@
 "use client"
 
 import Button from "@/components/button/Button";
+import LogInModal from "@/components/modal/LogInModal";
 import SignupModal from "@/components/modal/SignupModal";
 import { useHomeHook } from "@/hooks/useHomeHook";
 
 export default function Home() {
   const {
     openSignUpModal,
-    setOpenSignUpModal
+    setOpenSignUpModal,
+    openLogInModal,
+    setOpenLogInModal
   } = useHomeHook();
 
   return (
@@ -25,10 +28,14 @@ export default function Home() {
             onClick={setOpenSignUpModal}
           >アカウント作成</Button>
           <p>または</p>
-          <Button className="rounded-full border border-black px-3 hover:bg-gray-400 hover:text-white w-1/4">ログイン</Button>
+          <Button
+            className="rounded-full border border-black px-3 hover:bg-gray-400 hover:text-white w-1/4"
+            onClick={setOpenLogInModal}
+          >ログイン</Button>
         </div>
       </main>
       {openSignUpModal && <SignupModal />}
+      {openLogInModal && <LogInModal />}
     </>
   );
 }

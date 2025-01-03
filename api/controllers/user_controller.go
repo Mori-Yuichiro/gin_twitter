@@ -60,7 +60,7 @@ func (uc *userController) LogIn(c *gin.Context) {
 		3600,
 		"/",
 		os.Getenv("API_DOMAIN"),
-		false,
+		true,
 		true,
 	)
 
