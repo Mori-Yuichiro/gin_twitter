@@ -72,6 +72,12 @@ func NewRouter(
 	api.POST("/logout", uc.LogOut)
 	api.GET("/csrf", uc.CsrfToken)
 
+	user := api.Group("/users")
+	user.Use(middlewares.AuthMiddleware)
+	{
+		user.GET("/:userId", uc.GetUserByUserId)
+	}
+
 	tweet := api.Group("/tweets")
 	tweet.Use(middlewares.AuthMiddleware)
 	{

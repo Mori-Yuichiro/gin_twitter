@@ -5,6 +5,7 @@ import (
 	"gin-twitter/usecases"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	csrf "github.com/utrack/gin-csrf"
@@ -15,6 +16,7 @@ type IUserController interface {
 	LogIn(c *gin.Context)
 	LogOut(c *gin.Context)
 	CsrfToken(c *gin.Context)
+	GetUserByUserId(c *gin.Context)
 }
 
 type userController struct {
@@ -87,4 +89,19 @@ func (uc *userController) CsrfToken(c *gin.Context) {
 	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie("_csrf", token, 3600, "/", os.Getenv("API_DOMAIN"), true, true)
 	c.JSON(http.StatusOK, gin.H{"csrf_token": token})
+}
+
+func (uc *userController) GetUserByUserId(c *gin.Context) {
+	userId, err := strconv.ParseUint(c.Param("userId"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	userRes, err := uc.uu.GetUserByUserId(uint(userId))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, userRes)
 }
