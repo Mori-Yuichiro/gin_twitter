@@ -76,6 +76,7 @@ func NewRouter(
 	tweet.Use(middlewares.AuthMiddleware)
 	{
 		tweet.POST("", tc.CreateTweet)
+		tweet.GET("", tc.GetAllTweet)
 	}
 
 	return r

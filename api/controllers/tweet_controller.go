@@ -12,6 +12,7 @@ import (
 
 type ITweetController interface {
 	CreateTweet(c *gin.Context)
+	GetAllTweet(c *gin.Context)
 }
 
 type tweetController struct {
@@ -41,4 +42,13 @@ func (tc *tweetController) CreateTweet(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{"status": "created"})
+}
+
+func (tc *tweetController) GetAllTweet(c *gin.Context) {
+	tweetRes, err := tc.tu.GetAllTweet()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, tweetRes)
 }
