@@ -75,6 +75,7 @@ func NewRouter(
 	user := api.Group("/users")
 	user.Use(middlewares.AuthMiddleware)
 	{
+		user.GET("", uc.GetUserIdByToken)
 		user.GET("/:userId", uc.GetUserByUserId)
 	}
 

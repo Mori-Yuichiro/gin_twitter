@@ -3,11 +3,13 @@ package controllers
 import (
 	"gin-twitter/models"
 	"gin-twitter/usecases"
+	"gin-twitter/utils"
 	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	csrf "github.com/utrack/gin-csrf"
 )
 
@@ -16,6 +18,7 @@ type IUserController interface {
 	LogIn(c *gin.Context)
 	LogOut(c *gin.Context)
 	CsrfToken(c *gin.Context)
+	GetUserIdByToken(c *gin.Context)
 	GetUserByUserId(c *gin.Context)
 }
 
@@ -89,6 +92,15 @@ func (uc *userController) CsrfToken(c *gin.Context) {
 	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie("_csrf", token, 3600, "/", os.Getenv("API_DOMAIN"), true, true)
 	c.JSON(http.StatusOK, gin.H{"csrf_token": token})
+}
+
+func (uc *userController) GetUserIdByToken(c *gin.Context) {
+	tokenString, _ := c.Cookie("token")
+	token, _ := utils.ParseToken(tokenString)
+	claims := token.Claims.(jwt.MapClaims)
+	userId := claims["userId"]
+
+	c.JSON(http.StatusOK, gin.H{"userId": userId})
 }
 
 func (uc *userController) GetUserByUserId(c *gin.Context) {
