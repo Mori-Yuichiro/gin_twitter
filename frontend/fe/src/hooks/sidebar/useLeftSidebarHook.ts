@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useErrorHook } from "../error/useErrorHook";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -6,6 +6,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { changeCurrentUser } from "@/store/slice/slice";
 import { UserType } from "@/app/types/user";
+import { useRouter } from "next/navigation";
 
 type ItemListType = {
     label: string;
@@ -94,6 +95,26 @@ export const useLeftSidebarHook = () => {
     const { instance } = axiosInstance();
     const currentUser = useAppSelector(state => state.slice.currentUser);
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    const onClickLogOut = async () => {
+        try {
+            const { status } = await instance.post(
+                "/api/logout",
+                {},
+                { withCredentials: true }
+            );
+
+            if (status === 200) router.push("");
+        } catch (err) {
+            const { switchErrorHandling } = useErrorHook();
+            if (err instanceof AxiosError) {
+                toast(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                toast(err.message);
+            }
+        }
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -124,6 +145,7 @@ export const useLeftSidebarHook = () => {
 
     return {
         ITEM_LIST,
-        currentUser
+        currentUser,
+        onClickLogOut
     };
 }

@@ -5,12 +5,14 @@ interface State {
     openSignUpModal: boolean;
     openLogInModal: boolean;
     currentUser: UserType | null;
+    reload: boolean;
 }
 
 const initialState: State = {
     openSignUpModal: false,
     openLogInModal: false,
-    currentUser: null
+    currentUser: null,
+    reload: false
 };
 
 const slice = createSlice({
@@ -25,6 +27,9 @@ const slice = createSlice({
         },
         changeCurrentUser(state, action: PayloadAction<UserType>) {
             state.currentUser = action.payload
+        },
+        toggleReload(state, action: PayloadAction<boolean>) {
+            state.reload = action.payload
         }
     }
 });
@@ -32,6 +37,7 @@ const slice = createSlice({
 export const {
     toggleSignupModal,
     toggleLogInModal,
-    changeCurrentUser
+    changeCurrentUser,
+    toggleReload
 } = slice.actions;
 export default slice.reducer;
