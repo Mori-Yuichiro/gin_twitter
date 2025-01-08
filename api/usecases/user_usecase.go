@@ -14,6 +14,7 @@ import (
 type IUserUsecase interface {
 	SignUp(user models.User) error
 	LogIn(user models.User) (string, error)
+	GetUserByUserId(userId uint) (models.UserResponse, error)
 }
 
 type userUsecase struct {
@@ -72,4 +73,27 @@ func (uu *userUsecase) LogIn(user models.User) (string, error) {
 	)
 	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 	return tokenString, nil
+}
+
+func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error) {
+	user := models.User{}
+	if err := uu.ur.GetUserByUserId(&user, userId); err != nil {
+		return models.UserResponse{}, err
+	}
+	resUser := models.UserResponse{
+		ID:           user.ID,
+		Name:         user.Name,
+		Email:        user.Email,
+		Password:     user.Password,
+		Avator:       user.Avator,
+		DisplayName:  user.DisplayName,
+		ProfileImage: user.ProfileImage,
+		Bio:          user.Bio,
+		Location:     user.Location,
+		Website:      user.Website,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
+	}
+
+	return resUser, nil
 }

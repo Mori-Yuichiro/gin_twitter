@@ -32,7 +32,10 @@ export const useLogInModalHook = () => {
                 data,
                 { withCredentials: true }
             );
-            if (status === 200) router.push("/top");
+            if (status === 200) {
+                dispatch(toggleLogInModal(!openLogInModal));
+                router.push("/top");
+            }
         } catch (err) {
             const { switchErrorHandling } = useErrorHook();
             if (err instanceof AxiosError) {
