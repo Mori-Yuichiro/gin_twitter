@@ -78,7 +78,7 @@ func (uc *userController) LogOut(c *gin.Context) {
 	c.SetCookie(
 		"token",
 		"",
-		0,
+		-1,
 		"/",
 		os.Getenv("API_DOMAIN"),
 		true,

@@ -96,6 +96,7 @@ export const useLeftSidebarHook = () => {
     const currentUser = useAppSelector(state => state.slice.currentUser);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { switchErrorHandling } = useErrorHook();
 
     const onClickLogOut = async () => {
         try {
@@ -105,9 +106,12 @@ export const useLeftSidebarHook = () => {
                 { withCredentials: true }
             );
 
-            if (status === 200) router.push("");
+            if (status === 200) {
+                router.push("/");
+            } else if (status === 403) {
+                toast(switchErrorHandling("CSRF token mismatch"));
+            }
         } catch (err) {
-            const { switchErrorHandling } = useErrorHook();
             if (err instanceof AxiosError) {
                 toast(switchErrorHandling(err.response?.data));
             } else if (err instanceof Error) {
@@ -132,7 +136,6 @@ export const useLeftSidebarHook = () => {
                     if (status === 200) dispatch(changeCurrentUser(data));
                 }
             } catch (err) {
-                const { switchErrorHandling } = useErrorHook();
                 if (err instanceof AxiosError) {
                     toast(switchErrorHandling(err.response?.data));
                 } else if (err instanceof Error) {

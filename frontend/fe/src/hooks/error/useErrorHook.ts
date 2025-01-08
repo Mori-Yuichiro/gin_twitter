@@ -1,4 +1,13 @@
+import { CsrfTokenType } from "@/app/types/csrf";
+import axiosInstance from "@/lib/axiosInstance";
+
 export const useErrorHook = () => {
+    const { instance } = axiosInstance();
+    const setCsrfToken = async () => {
+        const { data } = await instance.get<CsrfTokenType>("/api/csrf");
+        instance.defaults.headers.common['X-CSRF-TOKEN'] = data.csrf_token;
+    }
+
     const switchErrorHandling = (msg: string) => {
         switch (msg) {
             case "missing csrf token in request header":
@@ -7,6 +16,9 @@ export const useErrorHook = () => {
             case "invalid csrf token":
                 // getCsrfToken();
                 return "CSRFトークンが間違っています";
+            case "CSRF token mismatch":
+                setCsrfToken();
+                return "CSRF token mismatch"
             case `ERROR: duplicate key value violates unique constraint "uni_users_email" (SQLSTATE 23505)`:
                 return "そちらのEmailはすでに登録されています";
             case "crypto/bcrypt: hashedPassword is not the hash of the given password":
