@@ -26,10 +26,10 @@ const slice = createSlice({
             state.openLogInModal = action.payload;
         },
         changeCurrentUser(state, action: PayloadAction<UserType>) {
-            state.currentUser = action.payload
+            state.currentUser = action.payload;
         },
         toggleReload(state, action: PayloadAction<boolean>) {
-            state.reload = action.payload
+            state.reload = action.payload;
         }
     }
 });
@@ -38,6 +38,6 @@ export const {
     toggleSignupModal,
     toggleLogInModal,
     changeCurrentUser,
-    toggleReload
+    toggleReload,
 } = slice.actions;
 export default slice.reducer;

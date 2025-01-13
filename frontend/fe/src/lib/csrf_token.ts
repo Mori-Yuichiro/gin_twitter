@@ -1,10 +1,9 @@
 import { CsrfTokenType } from "@/app/types/csrf";
-import axiosInstance from "./axiosInstance";
+import axios from "axios";
 
 export const getCsrfToken = async () => {
-    const { instance } = axiosInstance();
-    const { data } = await instance.get<CsrfTokenType>(
-        "/api/csrf",
+    const { data } = await axios.get<CsrfTokenType>(
+        "http://localhost:8080/api/csrf",
         { withCredentials: true }
     );
     return data.csrf_token;

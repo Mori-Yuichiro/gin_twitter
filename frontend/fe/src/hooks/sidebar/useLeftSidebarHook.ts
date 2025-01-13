@@ -105,11 +105,8 @@ export const useLeftSidebarHook = () => {
                 {},
                 { withCredentials: true }
             );
-
             if (status === 200) {
                 router.push("/");
-            } else if (status === 403) {
-                toast(switchErrorHandling("CSRF token mismatch"));
             }
         } catch (err) {
             if (err instanceof AxiosError) {
