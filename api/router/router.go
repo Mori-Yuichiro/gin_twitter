@@ -29,7 +29,7 @@ func NewRouter(
 			"Content-Type",
 			"Accept",
 			"Access-Control-Allow-Headers",
-			"X-CSRF-TOKEN",
+			"X-CSRF-Token",
 			"Access-Control-Allow-Origin",
 			// "Access-Control-Allow-Credentials",
 			// "Content-Length",
@@ -63,7 +63,13 @@ func NewRouter(
 		},
 		// TokenGetter: リクエストからCSRFトークンを取得するカスタム関数です。
 		TokenGetter: func(c *gin.Context) string {
-			return c.GetHeader("X-CSRF-TOKEN")
+			// クッキーからトークンを取得
+			csrfToken, err := c.Cookie("_csrf")
+			if err == nil && csrfToken != "" {
+				return csrfToken
+			}
+
+			return c.GetHeader("X-CSRF-Token")
 		},
 	}))
 

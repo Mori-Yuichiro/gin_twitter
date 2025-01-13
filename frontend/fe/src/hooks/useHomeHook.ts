@@ -14,7 +14,7 @@ export const useHomeHook = () => {
             const fetchData = async () => {
                 const csrf_token = await getCsrfToken();
                 axios.defaults.withCredentials = true;
-                axios.defaults.headers.common["X-CSRF-TOKEN"] = csrf_token;
+                axios.defaults.headers.common["X-CSRF-Token"] = csrf_token;
             }
             fetchData();
         } catch (err) {
