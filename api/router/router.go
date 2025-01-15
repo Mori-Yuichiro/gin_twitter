@@ -90,6 +90,7 @@ func NewRouter(
 	{
 		tweet.POST("", tc.CreateTweet)
 		tweet.GET("", tc.GetAllTweet)
+		tweet.DELETE("/:tweetId", tc.DeleteTweet)
 	}
 
 	return r

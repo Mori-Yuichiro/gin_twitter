@@ -1,15 +1,26 @@
 import { TweetType } from "@/app/types/tweet";
+import { useTweetHook } from "@/hooks/tweet/useTweetHook";
 
 export default function Tweet({ tweet }: { tweet: TweetType }) {
+    const {
+        onClickDeleteTweet
+    } = useTweetHook(tweet.id);
+
     return (
         <div className="border-b border-gray-300 px-3 py-2">
-            <div className="flex gap-x-3">
+            <div className="flex gap-x-3 justify-between">
                 <div className="bg-slate-400 w-8 h-8 rounded-full">
                     {tweet.user.avator && <img className="w-full h-full rounded-full" src={tweet.user.avator} alt="icon" />}
                 </div>
-                <div>
+                <div className="w-11/12">
                     <p>{tweet.user.displayName ? tweet.user.displayName : tweet.user.name}</p>
                     <p>{tweet.content}</p>
+                </div>
+                <div
+                    className="cursor-pointer"
+                    onClick={onClickDeleteTweet}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z" /></svg>
                 </div>
             </div>
             <div className="flex justify-between px-5 mt-2">
