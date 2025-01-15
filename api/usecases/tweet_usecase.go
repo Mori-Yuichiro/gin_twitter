@@ -9,6 +9,7 @@ import (
 type ITweetUsecase interface {
 	CreateTweet(tweet models.Tweet) error
 	GetAllTweet() ([]models.TweetResponse, error)
+	DeleteTweet(tweetId, userId uint) error
 }
 
 type tweetUsecase struct {
@@ -66,4 +67,11 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 	}
 
 	return resTweets, nil
+}
+
+func (tu *tweetUsecase) DeleteTweet(tweetId, userId uint) error {
+	if err := tu.tr.DeleteTweet(tweetId, userId); err != nil {
+		return err
+	}
+	return nil
 }
