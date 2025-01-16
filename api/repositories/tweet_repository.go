@@ -10,6 +10,7 @@ import (
 type ITweetRepository interface {
 	CreateTweet(tweet *models.Tweet) error
 	GetAllTweet(tweets *[]models.Tweet) error
+	GetTweetById(tweet *models.Tweet, tweetId uint) error
 	DeleteTweet(tweetId, userId uint) error
 }
 
@@ -30,6 +31,13 @@ func (tr *tweetRepository) CreateTweet(tweet *models.Tweet) error {
 
 func (tr *tweetRepository) GetAllTweet(tweets *[]models.Tweet) error {
 	if err := tr.db.Joins("User").Order("created_at DESC").Find(tweets).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (tr *tweetRepository) GetTweetById(tweet *models.Tweet, tweetId uint) error {
+	if err := tr.db.Joins("User").Where("tweets.id=?", tweetId).Order("created_at DESC").First(tweet).Error; err != nil {
 		return err
 	}
 	return nil

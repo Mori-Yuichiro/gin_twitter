@@ -9,6 +9,7 @@ import (
 type ITweetUsecase interface {
 	CreateTweet(tweet models.Tweet) error
 	GetAllTweet() ([]models.TweetResponse, error)
+	GetTweetById(tweetId uint) (models.TweetResponse, error)
 	DeleteTweet(tweetId, userId uint) error
 }
 
@@ -67,6 +68,39 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 	}
 
 	return resTweets, nil
+}
+
+func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error) {
+	tweet := models.Tweet{}
+	if err := tu.tr.GetTweetById(&tweet, tweetId); err != nil {
+		return models.TweetResponse{}, err
+	}
+
+	user := models.UserResponse{
+		ID:           tweet.User.ID,
+		Name:         tweet.User.Name,
+		Email:        tweet.User.Email,
+		Password:     tweet.User.Password,
+		Avator:       tweet.User.Avator,
+		DisplayName:  tweet.User.DisplayName,
+		ProfileImage: tweet.User.ProfileImage,
+		Bio:          tweet.User.Bio,
+		Location:     tweet.User.Location,
+		Website:      tweet.User.Website,
+		CreatedAt:    tweet.User.CreatedAt,
+		UpdatedAt:    tweet.User.UpdatedAt,
+	}
+
+	resTweet := models.TweetResponse{
+		ID:        tweet.ID,
+		Content:   tweet.Content,
+		UserId:    tweet.UserId,
+		CreatedAt: tweet.CreatedAt,
+		UpdatedAt: tweet.UpdatedAt,
+		User:      user,
+	}
+
+	return resTweet, nil
 }
 
 func (tu *tweetUsecase) DeleteTweet(tweetId, userId uint) error {

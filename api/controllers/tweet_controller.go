@@ -14,6 +14,7 @@ import (
 type ITweetController interface {
 	CreateTweet(c *gin.Context)
 	GetAllTweet(c *gin.Context)
+	GetTweetById(c *gin.Context)
 	DeleteTweet(c *gin.Context)
 }
 
@@ -48,6 +49,22 @@ func (tc *tweetController) CreateTweet(c *gin.Context) {
 
 func (tc *tweetController) GetAllTweet(c *gin.Context) {
 	tweetRes, err := tc.tu.GetAllTweet()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, tweetRes)
+}
+
+func (tc *tweetController) GetTweetById(c *gin.Context) {
+	id, ok := c.Params.Get("tweetId")
+	if !ok {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid parameter"})
+		return
+	}
+	tweetId, _ := strconv.Atoi(id)
+
+	tweetRes, err := tc.tu.GetTweetById(uint(tweetId))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
