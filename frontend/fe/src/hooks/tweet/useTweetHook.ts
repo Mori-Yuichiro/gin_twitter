@@ -3,12 +3,14 @@ import { AxiosError } from "axios";
 import { useErrorHook } from "../error/useErrorHook";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { toggleReload } from "@/store/slice/slice";
+import { usePathname } from "next/navigation";
 
 export const useTweetHook = (id: number) => {
     const { instance } = axiosInstance();
     const { switchErrorHandling } = useErrorHook();
     const reload = useAppSelector(state => state.slice.reload);
     const dispatch = useAppDispatch();
+    const pathName = usePathname();
 
     const onClickDeleteTweet = async () => {
         try {
@@ -28,5 +30,8 @@ export const useTweetHook = (id: number) => {
         }
     }
 
-    return { onClickDeleteTweet };
+    return {
+        onClickDeleteTweet,
+        pathName
+    };
 }
