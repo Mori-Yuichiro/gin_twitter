@@ -23,7 +23,7 @@ export const config = {
     matcher: [
         "/",
         "/top",
-        // "/tweet\/([0-9]+)",
+        "/tweets\/([0-9]+)",
         // "/profile\/([0-9]+)",
         // "/bookmarks",
         // "/rooms",

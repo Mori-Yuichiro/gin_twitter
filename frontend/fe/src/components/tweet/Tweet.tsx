@@ -1,9 +1,12 @@
 import { TweetType } from "@/app/types/tweet";
 import { useTweetHook } from "@/hooks/tweet/useTweetHook";
+import Link from "next/link";
+import { memo } from "react";
 
-export default function Tweet({ tweet }: { tweet: TweetType }) {
+const Tweet = memo(({ tweet }: { tweet: TweetType }) => {
     const {
-        onClickDeleteTweet
+        onClickDeleteTweet,
+        pathName
     } = useTweetHook(tweet.id);
 
     return (
@@ -14,7 +17,13 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
                 </div>
                 <div className="w-11/12">
                     <p>{tweet.user.displayName ? tweet.user.displayName : tweet.user.name}</p>
-                    <p>{tweet.content}</p>
+                    {(pathName.match("/tweets\/([0-9]+)")) ? (
+                        <p>{tweet.content}</p>
+                    ) : (
+                        <Link href={`/tweets/${tweet.id}`}>
+                            <p>{tweet.content}</p>
+                        </Link>
+                    )}
                 </div>
                 <div
                     className="cursor-pointer"
@@ -39,4 +48,6 @@ export default function Tweet({ tweet }: { tweet: TweetType }) {
             </div>
         </div>
     );
-}
+})
+
+export default Tweet;
