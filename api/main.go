@@ -15,6 +15,7 @@ func main() {
 
 	userValidator := validators.NewUserValidator()
 	tweetValidator := validators.NewTweetValidator()
+	commentValidator := validators.NewCommentValidator()
 
 	userRepository := repositories.NewUserRepository(db)
 	userUsecase := usecases.NewUserUsecase(userRepository, userValidator)
@@ -24,7 +25,15 @@ func main() {
 	tweetUsecase := usecases.NewTweetUsecase(tweetRepository, tweetValidator)
 	tweetController := controllers.NewTweetController(tweetUsecase)
 
-	r := router.NewRouter(userController, tweetController)
+	commentRepository := repositories.NewCommentRepository(db)
+	commentUsecase := usecases.NewCommentUsecase(commentRepository, commentValidator)
+	commentController := controllers.NewCommentController(commentUsecase)
+
+	r := router.NewRouter(
+		userController,
+		tweetController,
+		commentController,
+	)
 
 	log.Println("Server Started")
 	r.Run(":8080")
