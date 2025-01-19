@@ -1,6 +1,7 @@
+import { memo } from "react";
 import Button from "../button/Button";
 
-export default function RightSidebar() {
+const RightSidebar = memo(() => {
     return (
         <div className="min-h-screen w-1/4 pl-5 md:pl-6 xl:pl-8 pr-4 sm:pr-12 md:pr-20 xl:pr-28 flex flex-col gap-y-3 max-lg:hidden fixed right-0 border-l border-gray-300 box-border">
             <input
@@ -22,4 +23,6 @@ export default function RightSidebar() {
             </div>
         </div>
     );
-}
+});
+
+export default RightSidebar;

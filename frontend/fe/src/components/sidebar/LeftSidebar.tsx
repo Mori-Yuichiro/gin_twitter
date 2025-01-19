@@ -3,8 +3,9 @@
 import { useLeftSidebarHook } from "@/hooks/sidebar/useLeftSidebarHook";
 import Link from "next/link";
 import Button from "../button/Button";
+import { memo } from "react";
 
-export default function LeftSidebar() {
+const LeftSidebar = memo(() => {
     const {
         ITEM_LIST,
         currentUser,
@@ -51,4 +52,6 @@ export default function LeftSidebar() {
             </div>
         </aside>
     );
-}
+});
+
+export default LeftSidebar;

@@ -4,9 +4,10 @@ import Button from "@/components/button/Button";
 import Loading from "@/components/load/Loading";
 import Tweet from "@/components/tweet/Tweet";
 import { useToppageHook } from "@/hooks/top/useToppageHook";
+import { memo } from "react";
 import { ToastContainer } from "react-toastify";
 
-export default function TopPage() {
+const TopPage = memo(() => {
     const {
         tweets,
         register,
@@ -55,4 +56,6 @@ export default function TopPage() {
             )}
         </>
     );
-}
+});
+
+export default TopPage;
