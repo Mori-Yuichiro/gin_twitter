@@ -14,12 +14,11 @@ type Comment struct {
 }
 
 type CommentReponse struct {
-	ID        uint          `json:"id" gorm:"primaryKey"`
-	Comment   string        `json:"comment" gorm:"not null"`
-	UserId    uint          `json:"userId" gorm:"not null"`
-	TweetId   uint          `json:"tweetId" gorm:"not null"`
-	CreatedAt time.Time     `json:"createdAt"`
-	UpdatedAt time.Time     `json:"updatedAt"`
-	User      UserResponse  `json:"user"`
-	Tweet     TweetResponse `json:"tweet"`
+	ID        uint         `json:"id" gorm:"primaryKey"`
+	Comment   string       `json:"comment" gorm:"not null"`
+	UserId    uint         `json:"userId" gorm:"not null"`
+	TweetId   uint         `json:"tweetId" gorm:"not null"`
+	CreatedAt time.Time    `json:"createdAt"`
+	UpdatedAt time.Time    `json:"updatedAt"`
+	User      UserResponse `json:"user"`
 }
