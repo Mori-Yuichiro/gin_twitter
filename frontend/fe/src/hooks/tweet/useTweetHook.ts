@@ -4,6 +4,7 @@ import { useErrorHook } from "../error/useErrorHook";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { toggleReload } from "@/store/slice/slice";
 import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 
 export const useTweetHook = (id: number) => {
     const { instance } = axiosInstance();
@@ -12,7 +13,7 @@ export const useTweetHook = (id: number) => {
     const dispatch = useAppDispatch();
     const pathName = usePathname();
 
-    const onClickDeleteTweet = async () => {
+    const onClickDeleteTweet = useCallback(async () => {
         try {
             if (window.confirm("こちらのツイートを削除します。よろしいですか？")) {
                 const { status } = await instance.delete(
@@ -28,7 +29,7 @@ export const useTweetHook = (id: number) => {
                 console.error(err.message);
             }
         }
-    }
+    }, [reload]);
 
     return {
         onClickDeleteTweet,

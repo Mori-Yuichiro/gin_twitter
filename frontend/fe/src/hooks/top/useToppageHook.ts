@@ -1,6 +1,6 @@
 import axiosInstance from "@/lib/axiosInstance"
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useErrorHook } from "../error/useErrorHook";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -26,7 +26,7 @@ export const useToppageHook = () => {
         resolver: zodResolver(tweetPatchSchema)
     })
 
-    const onClickPostTweet = async (data: TweetPatchSchemaType) => {
+    const onClickPostTweet = useCallback(async (data: TweetPatchSchemaType) => {
         try {
             const { status } = await instance.post(
                 "/api/tweets",
@@ -44,7 +44,7 @@ export const useToppageHook = () => {
                 toast(err.message);
             }
         }
-    }
+    }, [reload])
 
     useEffect(() => {
         const fetchData = async () => {

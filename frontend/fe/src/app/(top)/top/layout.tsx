@@ -1,7 +1,8 @@
 import LeftSidebar from "@/components/sidebar/LeftSidebar"
 import RightSidebar from "@/components/sidebar/RightSidebar";
+import { memo } from "react";
 
-export default function TopLayout({ children }: { children: React.ReactNode }) {
+const TopLayout = memo(({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex w-full">
             <LeftSidebar />
@@ -9,4 +10,6 @@ export default function TopLayout({ children }: { children: React.ReactNode }) {
             <RightSidebar />
         </div>
     );
-}
+});
+
+export default TopLayout;

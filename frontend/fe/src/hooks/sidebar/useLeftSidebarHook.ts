@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useErrorHook } from "../error/useErrorHook";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -98,7 +98,7 @@ export const useLeftSidebarHook = () => {
     const router = useRouter();
     const { switchErrorHandling } = useErrorHook();
 
-    const onClickLogOut = async () => {
+    const onClickLogOut = useCallback(async () => {
         try {
             const { status } = await instance.post(
                 "/api/logout",
@@ -115,7 +115,7 @@ export const useLeftSidebarHook = () => {
                 toast(err.message);
             }
         }
-    }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
