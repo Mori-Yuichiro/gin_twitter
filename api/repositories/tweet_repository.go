@@ -37,7 +37,7 @@ func (tr *tweetRepository) GetAllTweet(tweets *[]models.Tweet) error {
 }
 
 func (tr *tweetRepository) GetTweetById(tweet *models.Tweet, tweetId uint) error {
-	if err := tr.db.Joins("User").Where("tweets.id=?", tweetId).Order("created_at DESC").First(tweet).Error; err != nil {
+	if err := tr.db.Joins("User").Preload("Comments").Preload("Comments.User").Where("tweets.id=?", tweetId).Order("created_at DESC").First(tweet).Error; err != nil {
 		return err
 	}
 	return nil

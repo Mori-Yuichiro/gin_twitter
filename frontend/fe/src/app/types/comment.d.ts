@@ -1,12 +1,11 @@
-import { CommentType } from "./comment";
 import { UserType } from "./user";
 
-export type TweetType = {
+export type CommentType = {
     id: number;
-    content: string;
+    comment: string;
     userId: number;
+    tweetId: number;
     createdAt: string;
     updatedAt: string;
     user: UserType
-    comments: CommentType[];
 }

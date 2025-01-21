@@ -76,19 +76,20 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		return models.TweetResponse{}, err
 	}
 
-	user := models.UserResponse{
-		ID:           tweet.User.ID,
-		Name:         tweet.User.Name,
-		Email:        tweet.User.Email,
-		Password:     tweet.User.Password,
-		Avator:       tweet.User.Avator,
-		DisplayName:  tweet.User.DisplayName,
-		ProfileImage: tweet.User.ProfileImage,
-		Bio:          tweet.User.Bio,
-		Location:     tweet.User.Location,
-		Website:      tweet.User.Website,
-		CreatedAt:    tweet.User.CreatedAt,
-		UpdatedAt:    tweet.User.UpdatedAt,
+	comments := []models.CommentReponse{}
+	if len(tweet.Comments) > 0 {
+		for _, v := range tweet.Comments {
+			comment := models.CommentReponse{
+				ID:        v.ID,
+				Comment:   v.Comment,
+				UserId:    v.UserId,
+				TweetId:   v.TweetId,
+				CreatedAt: v.CreatedAt,
+				UpdatedAt: v.UpdatedAt,
+				User:      models.UserResponse(v.User),
+			}
+			comments = append(comments, comment)
+		}
 	}
 
 	resTweet := models.TweetResponse{
@@ -97,7 +98,8 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		UserId:    tweet.UserId,
 		CreatedAt: tweet.CreatedAt,
 		UpdatedAt: tweet.UpdatedAt,
-		User:      user,
+		User:      models.UserResponse(tweet.User),
+		Comments:  comments,
 	}
 
 	return resTweet, nil

@@ -13,5 +13,6 @@ func main() {
 	dbConn.AutoMigrate(
 		&models.User{},
 		&models.Tweet{},
+		&models.Comment{},
 	)
 }

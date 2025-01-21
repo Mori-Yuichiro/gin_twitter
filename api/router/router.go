@@ -16,6 +16,7 @@ import (
 func NewRouter(
 	uc controllers.IUserController,
 	tc controllers.ITweetController,
+	cc controllers.ICommentController,
 ) *gin.Engine {
 	r := gin.Default()
 
@@ -93,6 +94,12 @@ func NewRouter(
 		twid := tweet.Group("/:tweetId")
 		twid.GET("", tc.GetTweetById)
 		twid.DELETE("", tc.DeleteTweet)
+	}
+
+	comment := api.Group("/comment")
+	comment.Use(middlewares.AuthMiddleware)
+	{
+		comment.POST("", cc.CreateComment)
 	}
 
 	return r
