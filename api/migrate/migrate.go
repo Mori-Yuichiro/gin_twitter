@@ -14,5 +14,6 @@ func main() {
 		&models.User{},
 		&models.Tweet{},
 		&models.Comment{},
+		&models.Retweet{},
 	)
 }

@@ -17,6 +17,7 @@ func NewRouter(
 	uc controllers.IUserController,
 	tc controllers.ITweetController,
 	cc controllers.ICommentController,
+	rc controllers.IRetweetController,
 ) *gin.Engine {
 	r := gin.Default()
 
@@ -94,6 +95,8 @@ func NewRouter(
 		twid := tweet.Group("/:tweetId")
 		twid.GET("", tc.GetTweetById)
 		twid.DELETE("", tc.DeleteTweet)
+		twid.POST("/retweet", rc.CreateRetweet)
+		twid.DELETE("/retweet", rc.DeleteRetweet)
 	}
 
 	comment := api.Group("/comment")
