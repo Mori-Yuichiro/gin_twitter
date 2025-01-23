@@ -745,6 +745,10 @@ paths:
       responses:
         201:
           description: Created
+    delete:
+      responses:
+        200:
+          description: Success
   /api/tweets/{tweetId}/retweet:
     description: add retweet
     parameters:
@@ -762,6 +766,10 @@ paths:
       responses:
         201:
           description: Created
+    delete:
+      responses:
+        200:
+          description: Success
   /api/tweets/{tweetId}/bookmark:
     description: add bookmark
     parameters:
@@ -774,6 +782,10 @@ paths:
       responses:
         201:
           description: Created
+    delete:
+      responses:
+        200:
+          description: Success
   /api/tweet:
     description: post tweet
     post:
