@@ -29,10 +29,15 @@ func main() {
 	commentUsecase := usecases.NewCommentUsecase(commentRepository, commentValidator)
 	commentController := controllers.NewCommentController(commentUsecase)
 
+	retweetRepository := repositories.NewRetweetRepository(db)
+	retweetUsecase := usecases.NewRetweetUsecase(retweetRepository)
+	retweetController := controllers.NewRetweetController(retweetUsecase)
+
 	r := router.NewRouter(
 		userController,
 		tweetController,
 		commentController,
+		retweetController,
 	)
 
 	log.Println("Server Started")

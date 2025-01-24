@@ -1,4 +1,5 @@
 import { CommentType } from "./comment";
+import { RetweetType } from "./retweet";
 import { UserType } from "./user";
 
 export type TweetType = {
@@ -9,4 +10,5 @@ export type TweetType = {
     updatedAt: string;
     user: UserType
     comments: CommentType[];
+    retweets: RetweetType[];
 }

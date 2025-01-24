@@ -10,6 +10,7 @@ export const useTweetHook = (id: number) => {
     const { instance } = axiosInstance();
     const { switchErrorHandling } = useErrorHook();
     const reload = useAppSelector(state => state.slice.reload);
+    const currentUser = useAppSelector(state => state.slice.currentUser);
     const dispatch = useAppDispatch();
     const pathName = usePathname();
 
@@ -31,8 +32,44 @@ export const useTweetHook = (id: number) => {
         }
     }, [reload]);
 
+    const onClickCreateRetweet = useCallback(async () => {
+        try {
+            const { status } = await instance.post(
+                `/api/tweets/${id}/retweet`,
+                undefined,
+                { withCredentials: true }
+            );
+            if (status === 201) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload]);
+
+    const onClickDeleteRetweet = useCallback(async () => {
+        try {
+            const { status } = await instance.delete(
+                `/api/tweets/${id}/retweet`,
+                { withCredentials: true }
+            );
+            if (status === 200) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload])
+
     return {
         onClickDeleteTweet,
-        pathName
+        currentUser,
+        pathName,
+        onClickCreateRetweet,
+        onClickDeleteRetweet
     };
 }

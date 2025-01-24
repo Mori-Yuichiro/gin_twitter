@@ -59,10 +59,10 @@ paths:
       responses:
         200:
           description: OK
-  /api/users/{user_id}:
+  /api/users/{userId}:
     description: get user info
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -118,7 +118,7 @@ paths:
                           content: "test",
                           created_at: 2024-12-17,
                           updated_at: 2024-12-17,
-                          user_id: 1,
+                          userId: 1,
                           user:
                             {
                               id: 1,
@@ -148,8 +148,8 @@ paths:
                       [
                         {
                           id: 1,
-                          user_id: 1,
-                          tweet_id: 1,
+                          userId: 1,
+                          tweetId: 1,
                           created_at: 2024-12-17,
                           updated_at: 2024-12-17,
                           user:
@@ -212,8 +212,8 @@ paths:
                           comment: "test",
                           created_at: 2024-12-17,
                           updated_at: 2024-12-17,
-                          user_id: 1,
-                          tweet_id: 1,
+                          userId: 1,
+                          tweetId: 1,
                           user:
                             {
                               id: 1,
@@ -271,8 +271,8 @@ paths:
                       [
                         {
                           id: 1,
-                          user_id: 1,
-                          tweet_id: 1,
+                          userId: 1,
+                          tweetId: 1,
                           created_at: 2024-12-17,
                           updated_at: 2024-12-17,
                           user:
@@ -438,10 +438,10 @@ paths:
       responses:
         200:
           description: OK
-  /api/users/{user_id}/delete:
+  /api/users/{userId}/delete:
     description: delete user
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -459,10 +459,10 @@ paths:
       responses:
         200:
           description: Success
-  /api/users/{user_id}/edit:
+  /api/users/{userId}/edit:
     description: edit user info
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -515,7 +515,7 @@ paths:
                           content: "test",
                           created_at: 2024-12-17,
                           updated_at: 2024-12-17,
-                          user_id: 1,
+                          userId: 1,
                           user:
                             {
                               id: 1,
@@ -540,8 +540,8 @@ paths:
                             [
                               {
                                 id: 1,
-                                user_id: 1,
-                                tweet_id: 1,
+                                userId: 1,
+                                tweetId: 1,
                                 created_at: 2024-12-17,
                                 updated_at: 2024-12-17,
                                 user: null,
@@ -556,8 +556,8 @@ paths:
                                 comment: "tst",
                                 created_at: 2024-12-17,
                                 updated_at: 2024-12-17,
-                                user_id: 1,
-                                tweet_id: 1,
+                                userId: 1,
+                                tweetId: 1,
                                 user:
                                   {
                                     id: 1,
@@ -615,8 +615,8 @@ paths:
                             [
                               {
                                 id: 1,
-                                user_id: 1,
-                                tweet_id: 1,
+                                userId: 1,
+                                tweetId: 1,
                                 created_at: 2024-12-17,
                                 updated_at: 2024-12-17,
                                 user:
@@ -645,7 +645,7 @@ paths:
                                     content: "test",
                                     created_at: 2024-12-17,
                                     updated_at: 2024-12-17,
-                                    user_id: 1,
+                                    userId: 1,
                                     user: null,
                                     favorites: null,
                                     comments: null,
@@ -658,8 +658,8 @@ paths:
                             [
                               {
                                 id: 1,
-                                user_id: 1,
-                                tweet_id: 1,
+                                userId: 1,
+                                tweetId: 1,
                                 created_at: 2024-12-17,
                                 updated_at: 2024-12-17,
                                 user: null,
@@ -669,10 +669,10 @@ paths:
                         },
                         {},
                       ]
-  /api/tweets/{tweet_id}:
+  /api/tweets/{tweetId}:
     description: show tweet content
     parameters:
-      - name: tweet_id
+      - name: tweetId
         in: path
         schema:
           type: integer
@@ -692,7 +692,7 @@ paths:
                   content:
                     type: string
                     example: "test"
-                  user_id:
+                  userId:
                     type: integer
                     example: 1
                   created_at:
@@ -716,10 +716,10 @@ paths:
                   bookmarks:
                     type: array
                     example: []
-  /api/tweets/{tweet_id}/delete:
+  /api/tweets/{tweetId}/delete:
     description: delete tweet
     parameters:
-      - name: tweet_id
+      - name: tweetId
         in: path
         schema:
           type: integer
@@ -728,10 +728,10 @@ paths:
       responses:
         200:
           description: Success
-  /api/tweets/{tweet_id}/{visited_id}/favorite:
+  /api/tweets/{tweetId}/favorite:
     description: add favorite
     parameters:
-      - name: tweet_id
+      - name: tweetId
         in: path
         schema:
           type: integer
@@ -745,10 +745,14 @@ paths:
       responses:
         201:
           description: Created
-  /api/tweets/{tweet_id}/{visited_id}/retweet:
+    delete:
+      responses:
+        200:
+          description: Success
+  /api/tweets/{tweetId}/retweet:
     description: add retweet
     parameters:
-      - name: tweet_id
+      - name: tweetId
         in: path
         schema:
           type: integer
@@ -762,10 +766,14 @@ paths:
       responses:
         201:
           description: Created
-  /api/tweets/{tweet_id}/bookmark:
+    delete:
+      responses:
+        200:
+          description: Success
+  /api/tweets/{tweetId}/bookmark:
     description: add bookmark
     parameters:
-      - name: tweet_id
+      - name: tweetId
         in: path
         schema:
           type: integer
@@ -774,6 +782,10 @@ paths:
       responses:
         201:
           description: Created
+    delete:
+      responses:
+        200:
+          description: Success
   /api/tweet:
     description: post tweet
     post:
@@ -806,8 +818,8 @@ paths:
                       [
                         {
                           id: 1,
-                          user_id: 1,
-                          tweet_id: 1,
+                          userId: 1,
+                          tweetId: 1,
                           created_at: 2024-12-18,
                           updated_at: 2024-12-18,
                           user: {},
@@ -815,7 +827,7 @@ paths:
                         },
                         {},
                       ]
-  /api/{visited_id}/comment:
+  /api/comment:
     description: post comment
     parameters:
       - name: visited_id
@@ -833,16 +845,16 @@ paths:
                 comment:
                   type: string
                   example: "test comment"
-                tweet_id:
+                tweetId:
                   type: integer
                   example: 1
       responses:
-        200:
-          description: OK
-  /api/users/{user_id}/follow:
+        201:
+          description: Created
+  /api/users/{userId}/follow:
     description: create and delete follow
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -855,10 +867,10 @@ paths:
       responses:
         200:
           description: Success
-  /api/users/{user_id}/followers:
+  /api/users/{userId}/followers:
     description: get followers
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -896,10 +908,10 @@ paths:
                           followeds: null,
                         },
                       ]
-  /api/users/{user_id}/followeds:
+  /api/users/{userId}/followeds:
     description: get followers
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -946,7 +958,7 @@ paths:
             schema:
               type: object
               properties:
-                user_id:
+                userId:
                   type: integer
                   example: 1
                 room_id:
@@ -955,10 +967,10 @@ paths:
       responses:
         201:
           description: Created
-  /api/entry/{user_id}:
-    description: get entry by user_id
+  /api/entry/{userId}:
+    description: get entry by userId
     parameters:
-      - name: user_id
+      - name: userId
         in: path
         schema:
           type: integer
@@ -978,7 +990,7 @@ paths:
                       [
                         {
                           id: 1,
-                          user_id: 1,
+                          userId: 1,
                           room_id: 1,
                           created_at: 2024-12-19,
                           updated_at: 2024-12-19,
@@ -986,7 +998,7 @@ paths:
                         },
                       ]
   /api/entry/{room_id}:
-    description: get entry by user_id and room_id
+    description: get entry by userId and room_id
     parameters:
       - name: room_id
         in: path
@@ -1007,7 +1019,7 @@ paths:
                     example:
                       {
                         id: 1,
-                        user_id: 1,
+                        userId: 1,
                         room_id: 1,
                         created_at: 2024-12-19,
                         updated_at: 2024-12-19,
@@ -1084,7 +1096,7 @@ paths:
                       [
                         {
                           id: 1,
-                          user_id: 1,
+                          userId: 1,
                           room_id: 1,
                           message: "string",
                           created_at: 2024-12-19,
@@ -1111,7 +1123,7 @@ paths:
                           id: 1,
                           visitor_id: 1,
                           visited_id: 2,
-                          tweet_id: 1,
+                          tweetId: 1,
                           action: "comment",
                           read: false,
                           visitor: {},
