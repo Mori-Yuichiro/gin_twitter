@@ -56,6 +56,37 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			CreatedAt:    v.User.CreatedAt,
 			UpdatedAt:    v.User.UpdatedAt,
 		}
+
+		comments := []models.CommentReponse{}
+		if len(v.Comments) > 0 {
+			for _, comm := range v.Comments {
+				comment := models.CommentReponse{
+					ID:        comm.ID,
+					Comment:   comm.Comment,
+					UserId:    comm.UserId,
+					TweetId:   comm.TweetId,
+					CreatedAt: comm.CreatedAt,
+					UpdatedAt: comm.UpdatedAt,
+					User:      models.UserResponse(comm.User),
+				}
+				comments = append(comments, comment)
+			}
+		}
+
+		retweets := []models.RetweetResponse{}
+		if len(v.Retweets) > 0 {
+			for _, ret := range v.Retweets {
+				retweet := models.RetweetResponse{
+					ID:        ret.ID,
+					UserId:    ret.UserId,
+					TweetId:   ret.TweetId,
+					CreatedAt: ret.CreatedAt,
+					UpdatedAt: ret.UpdatedAt,
+				}
+				retweets = append(retweets, retweet)
+			}
+		}
+
 		tweet := models.TweetResponse{
 			ID:        v.ID,
 			Content:   v.Content,
@@ -63,6 +94,8 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			CreatedAt: v.CreatedAt,
 			UpdatedAt: v.UpdatedAt,
 			User:      user,
+			Comments:  comments,
+			Retweets:  retweets,
 		}
 		resTweets = append(resTweets, tweet)
 	}
@@ -92,6 +125,20 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		}
 	}
 
+	retweets := []models.RetweetResponse{}
+	if len(tweet.Retweets) > 0 {
+		for _, ret := range tweet.Retweets {
+			retweet := models.RetweetResponse{
+				ID:        ret.ID,
+				UserId:    ret.UserId,
+				TweetId:   ret.TweetId,
+				CreatedAt: ret.CreatedAt,
+				UpdatedAt: ret.UpdatedAt,
+			}
+			retweets = append(retweets, retweet)
+		}
+	}
+
 	resTweet := models.TweetResponse{
 		ID:        tweet.ID,
 		Content:   tweet.Content,
@@ -100,6 +147,7 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		UpdatedAt: tweet.UpdatedAt,
 		User:      models.UserResponse(tweet.User),
 		Comments:  comments,
+		Retweets:  retweets,
 	}
 
 	return resTweet, nil

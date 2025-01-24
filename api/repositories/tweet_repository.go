@@ -30,7 +30,7 @@ func (tr *tweetRepository) CreateTweet(tweet *models.Tweet) error {
 }
 
 func (tr *tweetRepository) GetAllTweet(tweets *[]models.Tweet) error {
-	if err := tr.db.Joins("User").Order("created_at DESC").Find(tweets).Error; err != nil {
+	if err := tr.db.Joins("User").Preload("Retweets").Order("created_at DESC").Find(tweets).Error; err != nil {
 		return err
 	}
 	return nil
