@@ -33,11 +33,16 @@ func main() {
 	retweetUsecase := usecases.NewRetweetUsecase(retweetRepository)
 	retweetController := controllers.NewRetweetController(retweetUsecase)
 
+	favoriteRepository := repositories.NewFavoriteRepository(db)
+	favoriteUsecase := usecases.NewFavoriteUsecase(favoriteRepository)
+	favoriteController := controllers.NewFavoriteController(favoriteUsecase)
+
 	r := router.NewRouter(
 		userController,
 		tweetController,
 		commentController,
 		retweetController,
+		favoriteController,
 	)
 
 	log.Println("Server Started")

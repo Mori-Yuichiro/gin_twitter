@@ -18,6 +18,7 @@ func NewRouter(
 	tc controllers.ITweetController,
 	cc controllers.ICommentController,
 	rc controllers.IRetweetController,
+	fc controllers.IFavoriteController,
 ) *gin.Engine {
 	r := gin.Default()
 
@@ -97,6 +98,8 @@ func NewRouter(
 		twid.DELETE("", tc.DeleteTweet)
 		twid.POST("/retweet", rc.CreateRetweet)
 		twid.DELETE("/retweet", rc.DeleteRetweet)
+		twid.POST("/favorite", fc.CreateFavorite)
+		twid.DELETE("/favorite", fc.DeleteFavorite)
 	}
 
 	comment := api.Group("/comment")
