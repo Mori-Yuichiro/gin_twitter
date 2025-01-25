@@ -65,11 +65,46 @@ export const useTweetHook = (id: number) => {
         }
     }, [reload])
 
+    const onClickCreateFavorite = useCallback(async () => {
+        try {
+            const { status } = await instance.post(
+                `/api/tweets/${id}/favorite`,
+                undefined,
+                { withCredentials: true }
+            );
+            if (status === 201) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload])
+
+    const onClickDeleteFavorite = useCallback(async () => {
+        try {
+            const { status } = await instance.delete(
+                `/api/tweets/${id}/favorite`,
+                { withCredentials: true }
+            );
+            if (status === 200) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload])
+
     return {
         onClickDeleteTweet,
         currentUser,
         pathName,
         onClickCreateRetweet,
-        onClickDeleteRetweet
+        onClickDeleteRetweet,
+        onClickCreateFavorite,
+        onClickDeleteFavorite
     };
 }
