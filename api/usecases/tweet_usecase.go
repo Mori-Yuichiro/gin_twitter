@@ -87,6 +87,20 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			}
 		}
 
+		favorites := []models.FavoriteResponse{}
+		if len(v.Favorites) > 0 {
+			for _, fav := range v.Favorites {
+				favorite := models.FavoriteResponse{
+					ID:        fav.ID,
+					UserId:    fav.UserId,
+					TweetId:   fav.TweetId,
+					CreatedAt: fav.CreatedAt,
+					UpdatedAt: fav.UpdatedAt,
+				}
+				favorites = append(favorites, favorite)
+			}
+		}
+
 		tweet := models.TweetResponse{
 			ID:        v.ID,
 			Content:   v.Content,
@@ -96,6 +110,7 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			User:      user,
 			Comments:  comments,
 			Retweets:  retweets,
+			Favorites: favorites,
 		}
 		resTweets = append(resTweets, tweet)
 	}
@@ -139,6 +154,20 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		}
 	}
 
+	favorites := []models.FavoriteResponse{}
+	if len(tweet.Favorites) > 0 {
+		for _, fav := range tweet.Favorites {
+			favorite := models.FavoriteResponse{
+				ID:        fav.ID,
+				UserId:    fav.UserId,
+				TweetId:   fav.TweetId,
+				CreatedAt: fav.CreatedAt,
+				UpdatedAt: fav.UpdatedAt,
+			}
+			favorites = append(favorites, favorite)
+		}
+	}
+
 	resTweet := models.TweetResponse{
 		ID:        tweet.ID,
 		Content:   tweet.Content,
@@ -148,6 +177,7 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		User:      models.UserResponse(tweet.User),
 		Comments:  comments,
 		Retweets:  retweets,
+		Favorites: favorites,
 	}
 
 	return resTweet, nil

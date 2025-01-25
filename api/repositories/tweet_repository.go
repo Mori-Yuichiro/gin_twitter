@@ -30,14 +30,14 @@ func (tr *tweetRepository) CreateTweet(tweet *models.Tweet) error {
 }
 
 func (tr *tweetRepository) GetAllTweet(tweets *[]models.Tweet) error {
-	if err := tr.db.Joins("User").Preload("Retweets").Order("created_at DESC").Find(tweets).Error; err != nil {
+	if err := tr.db.Joins("User").Preload("Retweets").Preload("Favorites").Order("created_at DESC").Find(tweets).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 func (tr *tweetRepository) GetTweetById(tweet *models.Tweet, tweetId uint) error {
-	if err := tr.db.Joins("User").Preload("Comments").Preload("Comments.User").Where("tweets.id=?", tweetId).Order("created_at DESC").First(tweet).Error; err != nil {
+	if err := tr.db.Joins("User").Preload("Comments").Preload("Comments.User").Preload("Retweets").Preload("Favorites").Where("tweets.id=?", tweetId).Order("created_at DESC").First(tweet).Error; err != nil {
 		return err
 	}
 	return nil
