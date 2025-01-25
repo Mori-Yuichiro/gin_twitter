@@ -9,7 +9,9 @@ const Tweet = memo(({ tweet }: { tweet: TweetType }) => {
         currentUser,
         pathName,
         onClickCreateRetweet,
-        onClickDeleteRetweet
+        onClickDeleteRetweet,
+        onClickCreateFavorite,
+        onClickDeleteFavorite
     } = useTweetHook(tweet.id);
 
     return (
@@ -52,8 +54,18 @@ const Tweet = memo(({ tweet }: { tweet: TweetType }) => {
                     )}
                     <p>{tweet.retweets.length}</p>
                 </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.528a6 6 0 0 0-8.243 8.715l6.829 6.828a2 2 0 0 0 2.828 0l6.829-6.828A6 6 0 0 0 12 4.528zm-1.172 1.644l.465.464a1 1 0 0 0 1.414 0l.465-.464a4 4 0 1 1 5.656 5.656L12 18.657l-6.828-6.829a4 4 0 0 1 5.656-5.656z" /></svg>
+                <div
+                    className="flex gap-x-2 items-center"
+                    onClick={(tweet.favorites.some(favorite => favorite.userId === currentUser?.id))
+                        ? onClickDeleteFavorite
+                        : onClickCreateFavorite}
+                >
+                    {(tweet.favorites.some(favorite => favorite.userId === currentUser?.id)) ? (
+                        <svg className="text-red-500" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><path fill="currentColor" d="m10 3.22l-.61-.6a5.5 5.5 0 0 0-7.78 7.77L10 18.78l8.39-8.4a5.5 5.5 0 0 0-7.78-7.77l-.61.61z" /></svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4.528a6 6 0 0 0-8.243 8.715l6.829 6.828a2 2 0 0 0 2.828 0l6.829-6.828A6 6 0 0 0 12 4.528zm-1.172 1.644l.465.464a1 1 0 0 0 1.414 0l.465-.464a4 4 0 1 1 5.656 5.656L12 18.657l-6.828-6.829a4 4 0 0 1 5.656-5.656z" /></svg>
+                    )}
+                    <p>{tweet.favorites.length}</p>
                 </div>
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v17a1 1 0 0 1-1.581.814L12 17.229l-6.419 4.585A1 1 0 0 1 4 21V4zm14 0H6v15.057l5.419-3.87a1 1 0 0 1 1.162 0L18 19.056V4z" /></svg>

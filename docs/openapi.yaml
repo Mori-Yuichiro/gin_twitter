@@ -736,11 +736,6 @@ paths:
         schema:
           type: integer
         required: true
-      - name: visited_id
-        in: path
-        schema:
-          type: integer
-        required: true
     post:
       responses:
         201:
@@ -753,11 +748,6 @@ paths:
     description: add retweet
     parameters:
       - name: tweetId
-        in: path
-        schema:
-          type: integer
-        required: true
-      - name: visited_id
         in: path
         schema:
           type: integer
