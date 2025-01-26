@@ -28,7 +28,9 @@ func (ur *userRespository) GetUserByEmail(user *models.User, email string) error
 }
 
 func (ur *userRespository) GetUserByUserId(user *models.User, userId uint) error {
-	if err := ur.db.Where("id=?", userId).First(user).Error; err != nil {
+	if err := ur.db.Preload("Tweets", func(db *gorm.DB) *gorm.DB {
+		return db.Order("created_at desc")
+	}).Preload("Tweets.User").Preload("Tweets.Retweets").Preload("Tweets.Favorites").Where("id=?", userId).First(user).Error; err != nil {
 		return err
 	}
 	return nil

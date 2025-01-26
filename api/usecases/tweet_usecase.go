@@ -60,6 +60,20 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 		comments := []models.CommentReponse{}
 		if len(v.Comments) > 0 {
 			for _, comm := range v.Comments {
+				commUser := models.UserResponse{
+					ID:           comm.User.ID,
+					Name:         comm.User.Name,
+					Email:        comm.User.Email,
+					Password:     comm.User.Password,
+					Avator:       comm.User.Avator,
+					DisplayName:  comm.User.DisplayName,
+					ProfileImage: comm.User.ProfileImage,
+					Bio:          comm.User.Bio,
+					Location:     comm.User.Location,
+					Website:      comm.User.Website,
+					CreatedAt:    comm.User.CreatedAt,
+					UpdatedAt:    comm.User.UpdatedAt,
+				}
 				comment := models.CommentReponse{
 					ID:        comm.ID,
 					Comment:   comm.Comment,
@@ -67,7 +81,8 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 					TweetId:   comm.TweetId,
 					CreatedAt: comm.CreatedAt,
 					UpdatedAt: comm.UpdatedAt,
-					User:      models.UserResponse(comm.User),
+					User:      commUser,
+					// User:      models.UserResponse(comm.User),
 				}
 				comments = append(comments, comment)
 			}
@@ -124,9 +139,38 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		return models.TweetResponse{}, err
 	}
 
+	user := models.UserResponse{
+		ID:           tweet.User.ID,
+		Name:         tweet.User.Name,
+		Email:        tweet.User.Email,
+		Password:     tweet.User.Password,
+		Avator:       tweet.User.Avator,
+		DisplayName:  tweet.User.DisplayName,
+		ProfileImage: tweet.User.ProfileImage,
+		Bio:          tweet.User.Bio,
+		Location:     tweet.User.Location,
+		Website:      tweet.User.Website,
+		CreatedAt:    tweet.User.CreatedAt,
+		UpdatedAt:    tweet.User.UpdatedAt,
+	}
+
 	comments := []models.CommentReponse{}
 	if len(tweet.Comments) > 0 {
 		for _, v := range tweet.Comments {
+			user := models.UserResponse{
+				ID:           v.User.ID,
+				Name:         v.User.Name,
+				Email:        v.User.Email,
+				Password:     v.User.Password,
+				Avator:       v.User.Avator,
+				DisplayName:  v.User.DisplayName,
+				ProfileImage: v.User.ProfileImage,
+				Bio:          v.User.Bio,
+				Location:     v.User.Location,
+				Website:      v.User.Website,
+				CreatedAt:    v.User.CreatedAt,
+				UpdatedAt:    v.User.UpdatedAt,
+			}
 			comment := models.CommentReponse{
 				ID:        v.ID,
 				Comment:   v.Comment,
@@ -134,7 +178,8 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 				TweetId:   v.TweetId,
 				CreatedAt: v.CreatedAt,
 				UpdatedAt: v.UpdatedAt,
-				User:      models.UserResponse(v.User),
+				User:      user,
+				// User:      models.UserResponse(v.User),
 			}
 			comments = append(comments, comment)
 		}
@@ -174,10 +219,11 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		UserId:    tweet.UserId,
 		CreatedAt: tweet.CreatedAt,
 		UpdatedAt: tweet.UpdatedAt,
-		User:      models.UserResponse(tweet.User),
+		User:      user,
 		Comments:  comments,
 		Retweets:  retweets,
 		Favorites: favorites,
+		// User:      models.UserResponse(tweet.User),
 	}
 
 	return resTweet, nil

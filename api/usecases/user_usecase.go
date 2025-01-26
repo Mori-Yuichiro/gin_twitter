@@ -80,6 +80,68 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 	if err := uu.ur.GetUserByUserId(&user, userId); err != nil {
 		return models.UserResponse{}, err
 	}
+
+	tweets := []models.TweetResponse{}
+	if len(user.Tweets) > 0 {
+		for _, v := range user.Tweets {
+			tweetUser := models.UserResponse{
+				ID:           v.User.ID,
+				Name:         v.User.Name,
+				Email:        v.User.Email,
+				Password:     v.User.Password,
+				Avator:       v.User.Avator,
+				DisplayName:  v.User.DisplayName,
+				ProfileImage: v.User.ProfileImage,
+				Bio:          v.User.Bio,
+				Location:     v.User.Location,
+				Website:      v.User.Website,
+				CreatedAt:    v.User.CreatedAt,
+				UpdatedAt:    v.User.UpdatedAt,
+			}
+
+			retweets := []models.RetweetResponse{}
+			if len(v.Retweets) > 0 {
+				for _, ret := range v.Retweets {
+					retweet := models.RetweetResponse{
+						ID:        ret.ID,
+						UserId:    ret.UserId,
+						TweetId:   ret.TweetId,
+						CreatedAt: ret.CreatedAt,
+						UpdatedAt: ret.UpdatedAt,
+					}
+					retweets = append(retweets, retweet)
+				}
+			}
+
+			favorites := []models.FavoriteResponse{}
+			if len(v.Favorites) > 0 {
+				for _, fav := range v.Favorites {
+					favorite := models.FavoriteResponse{
+						ID:        fav.ID,
+						UserId:    fav.UserId,
+						TweetId:   fav.TweetId,
+						CreatedAt: fav.CreatedAt,
+						UpdatedAt: fav.UpdatedAt,
+					}
+					favorites = append(favorites, favorite)
+				}
+			}
+
+			tweet := models.TweetResponse{
+				ID:        v.ID,
+				Content:   v.Content,
+				UserId:    v.UserId,
+				CreatedAt: v.CreatedAt,
+				UpdatedAt: v.UpdatedAt,
+				User:      tweetUser,
+				Retweets:  retweets,
+				Favorites: favorites,
+			}
+
+			tweets = append(tweets, tweet)
+		}
+	}
+
 	resUser := models.UserResponse{
 		ID:           user.ID,
 		Name:         user.Name,
@@ -93,6 +155,7 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 		Website:      user.Website,
 		CreatedAt:    user.CreatedAt,
 		UpdatedAt:    user.UpdatedAt,
+		Tweets:       tweets,
 	}
 
 	return resUser, nil
