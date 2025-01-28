@@ -142,6 +142,176 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 		}
 	}
 
+	comments := []models.CommentReponse{}
+	if len(user.Comments) > 0 {
+		for _, comm := range user.Comments {
+			user := models.UserResponse{
+				ID:           comm.User.ID,
+				Name:         comm.User.Name,
+				Email:        comm.User.Email,
+				Password:     comm.User.Password,
+				Avator:       comm.User.Avator,
+				DisplayName:  comm.User.DisplayName,
+				ProfileImage: comm.User.ProfileImage,
+				Bio:          comm.User.Bio,
+				Location:     comm.User.Location,
+				Website:      comm.User.Website,
+				CreatedAt:    comm.User.CreatedAt,
+				UpdatedAt:    comm.User.UpdatedAt,
+			}
+			comment := models.CommentReponse{
+				ID:        comm.ID,
+				Comment:   comm.Comment,
+				UserId:    comm.UserId,
+				TweetId:   comm.TweetId,
+				CreatedAt: comm.CreatedAt,
+				UpdatedAt: comm.UpdatedAt,
+				User:      user,
+			}
+			comments = append(comments, comment)
+		}
+	}
+
+	retweets := []models.RetweetResponse{}
+	if len(user.Retweets) > 0 {
+		for _, ret := range user.Retweets {
+			retTwUser := models.UserResponse{
+				ID:           ret.Tweet.User.ID,
+				Name:         ret.Tweet.User.Name,
+				Email:        ret.Tweet.User.Email,
+				Password:     ret.Tweet.User.Password,
+				Avator:       ret.Tweet.User.Avator,
+				DisplayName:  ret.Tweet.User.DisplayName,
+				ProfileImage: ret.Tweet.User.ProfileImage,
+				Bio:          ret.Tweet.User.Bio,
+				Location:     ret.Tweet.User.Location,
+				Website:      ret.Tweet.User.Website,
+				CreatedAt:    ret.Tweet.User.CreatedAt,
+				UpdatedAt:    ret.Tweet.User.UpdatedAt,
+			}
+
+			retTwRets := []models.RetweetResponse{}
+			if len(ret.Tweet.Retweets) > 0 {
+				for _, retTweetRet := range ret.Tweet.Retweets {
+					retTwRet := models.RetweetResponse{
+						ID:        retTweetRet.ID,
+						UserId:    retTweetRet.UserId,
+						TweetId:   retTweetRet.TweetId,
+						CreatedAt: retTweetRet.CreatedAt,
+						UpdatedAt: retTweetRet.UpdatedAt,
+					}
+					retTwRets = append(retTwRets, retTwRet)
+				}
+			}
+
+			retTwFavs := []models.FavoriteResponse{}
+			if len(ret.Tweet.Favorites) > 0 {
+				for _, retTweetFav := range ret.Tweet.Favorites {
+					retTwFav := models.FavoriteResponse{
+						ID:        retTweetFav.ID,
+						UserId:    retTweetFav.UserId,
+						TweetId:   retTweetFav.TweetId,
+						CreatedAt: retTweetFav.CreatedAt,
+						UpdatedAt: retTweetFav.UpdatedAt,
+					}
+					retTwFavs = append(retTwFavs, retTwFav)
+				}
+			}
+
+			tweet := models.TweetResponse{
+				ID:        ret.Tweet.ID,
+				Content:   ret.Tweet.Content,
+				UserId:    ret.Tweet.UserId,
+				CreatedAt: ret.Tweet.CreatedAt,
+				UpdatedAt: ret.Tweet.UpdatedAt,
+				User:      retTwUser,
+				Retweets:  retTwRets,
+				Favorites: retTwFavs,
+			}
+
+			retweet := models.RetweetResponse{
+				ID:        ret.ID,
+				UserId:    ret.UserId,
+				TweetId:   ret.TweetId,
+				CreatedAt: ret.CreatedAt,
+				UpdatedAt: ret.UpdatedAt,
+				Tweet:     tweet,
+			}
+
+			retweets = append(retweets, retweet)
+		}
+	}
+
+	favorites := []models.FavoriteResponse{}
+	if len(user.Favorites) > 0 {
+		for _, fav := range user.Favorites {
+			favTwUser := models.UserResponse{
+				ID:           fav.Tweet.User.ID,
+				Name:         fav.Tweet.User.Name,
+				Email:        fav.Tweet.User.Email,
+				Password:     fav.Tweet.User.Password,
+				Avator:       fav.Tweet.User.Avator,
+				DisplayName:  fav.Tweet.User.DisplayName,
+				ProfileImage: fav.Tweet.User.ProfileImage,
+				Bio:          fav.Tweet.User.Bio,
+				Location:     fav.Tweet.User.Location,
+				Website:      fav.Tweet.User.Website,
+				CreatedAt:    fav.Tweet.User.CreatedAt,
+				UpdatedAt:    fav.Tweet.User.UpdatedAt,
+			}
+
+			favTwRets := []models.RetweetResponse{}
+			if len(fav.Tweet.Retweets) > 0 {
+				for _, favTweetRet := range fav.Tweet.Retweets {
+					retTwRet := models.RetweetResponse{
+						ID:        favTweetRet.ID,
+						UserId:    favTweetRet.UserId,
+						TweetId:   favTweetRet.TweetId,
+						CreatedAt: favTweetRet.CreatedAt,
+						UpdatedAt: favTweetRet.UpdatedAt,
+					}
+					favTwRets = append(favTwRets, retTwRet)
+				}
+			}
+
+			favTwFavs := []models.FavoriteResponse{}
+			if len(fav.Tweet.Favorites) > 0 {
+				for _, favTweetFav := range fav.Tweet.Favorites {
+					retTwFav := models.FavoriteResponse{
+						ID:        favTweetFav.ID,
+						UserId:    favTweetFav.UserId,
+						TweetId:   favTweetFav.TweetId,
+						CreatedAt: favTweetFav.CreatedAt,
+						UpdatedAt: favTweetFav.UpdatedAt,
+					}
+					favTwFavs = append(favTwFavs, retTwFav)
+				}
+			}
+
+			tweet := models.TweetResponse{
+				ID:        fav.Tweet.ID,
+				Content:   fav.Tweet.Content,
+				UserId:    fav.Tweet.UserId,
+				CreatedAt: fav.Tweet.CreatedAt,
+				UpdatedAt: fav.Tweet.UpdatedAt,
+				User:      favTwUser,
+				Retweets:  favTwRets,
+				Favorites: favTwFavs,
+			}
+
+			favorite := models.FavoriteResponse{
+				ID:        fav.ID,
+				UserId:    fav.UserId,
+				TweetId:   fav.TweetId,
+				CreatedAt: fav.CreatedAt,
+				UpdatedAt: fav.UpdatedAt,
+				Tweet:     tweet,
+			}
+
+			favorites = append(favorites, favorite)
+		}
+	}
+
 	resUser := models.UserResponse{
 		ID:           user.ID,
 		Name:         user.Name,
@@ -156,6 +326,9 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 		CreatedAt:    user.CreatedAt,
 		UpdatedAt:    user.UpdatedAt,
 		Tweets:       tweets,
+		Comments:     comments,
+		Retweets:     retweets,
+		Favorites:    favorites,
 	}
 
 	return resUser, nil
