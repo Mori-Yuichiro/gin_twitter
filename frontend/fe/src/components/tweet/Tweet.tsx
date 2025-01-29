@@ -21,7 +21,9 @@ const Tweet = memo(({ tweet }: { tweet: TweetType }) => {
                     {tweet.user.avator && <img className="w-full h-full rounded-full" src={tweet.user.avator} alt="icon" />}
                 </div>
                 <div className="w-11/12">
-                    <p>{tweet.user.displayName ? tweet.user.displayName : tweet.user.name}</p>
+                    <Link href={`/profile/${tweet.user.id}`}>
+                        <p>{tweet.user.displayName ? tweet.user.displayName : tweet.user.name}</p>
+                    </Link>
                     {(pathName.match("/tweets\/([0-9]+)")) ? (
                         <p>{tweet.content}</p>
                     ) : (
