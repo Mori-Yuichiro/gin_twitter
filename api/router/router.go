@@ -85,7 +85,9 @@ func NewRouter(
 	user.Use(middlewares.AuthMiddleware)
 	{
 		user.GET("", uc.GetUserIdByToken)
-		user.GET("/:userId", uc.GetUserByUserId)
+		uid := user.Group("/:userId")
+		uid.GET("", uc.GetUserByUserId)
+		uid.PUT("/edit", uc.UpdateUser)
 	}
 
 	tweet := api.Group("/tweets")

@@ -15,6 +15,7 @@ type IUserUsecase interface {
 	SignUp(user models.User) error
 	LogIn(user models.User) (string, error)
 	GetUserByUserId(userId uint) (models.UserResponse, error)
+	UpdateUser(user models.User, userId uint) error
 }
 
 type userUsecase struct {
@@ -332,4 +333,11 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 	}
 
 	return resUser, nil
+}
+
+func (uu *userUsecase) UpdateUser(user models.User, userId uint) error {
+	if err := uu.ur.UpdateUser(&user, userId); err != nil {
+		return err
+	}
+	return nil
 }
