@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gin-twitter/controllers"
 	"gin-twitter/db"
 	"gin-twitter/repositories"
@@ -8,10 +9,21 @@ import (
 	"gin-twitter/usecases"
 	"gin-twitter/validators"
 	"log"
+	"os"
+
+	"github.com/cloudinary/cloudinary-go/v2"
 )
 
 func main() {
 	db := db.NewDB()
+	cld, err := cloudinary.NewFromURL(os.Getenv("CLOUDINARY_URL"))
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	imageRepository := repositories.NewImageRepository(cld)
+	imageUsecase := usecases.NewImageUsecase(imageRepository)
+	imageController := controllers.NewImageController(imageUsecase)
 
 	userValidator := validators.NewUserValidator()
 	tweetValidator := validators.NewTweetValidator()
@@ -38,6 +50,7 @@ func main() {
 	favoriteController := controllers.NewFavoriteController(favoriteUsecase)
 
 	r := router.NewRouter(
+		imageController,
 		userController,
 		tweetController,
 		commentController,

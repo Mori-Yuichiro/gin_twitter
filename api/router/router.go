@@ -14,6 +14,7 @@ import (
 )
 
 func NewRouter(
+	ic controllers.IImageController,
 	uc controllers.IUserController,
 	tc controllers.ITweetController,
 	cc controllers.ICommentController,
@@ -80,6 +81,12 @@ func NewRouter(
 	api.POST("/login", uc.LogIn)
 	api.POST("/logout", uc.LogOut)
 	api.GET("/csrf", uc.CsrfToken)
+
+	image := api.Group("/image")
+	image.Use(middlewares.AuthMiddleware)
+	{
+		image.POST("/upload", ic.UploadImage)
+	}
 
 	user := api.Group("/users")
 	user.Use(middlewares.AuthMiddleware)

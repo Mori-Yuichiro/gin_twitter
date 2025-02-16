@@ -3,7 +3,6 @@ package repositories
 import (
 	"fmt"
 	"gin-twitter/models"
-	"time"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -48,14 +47,13 @@ func (ur *userRespository) CreateUser(user *models.User) error {
 }
 
 func (ur *userRespository) UpdateUser(user *models.User, userId uint) error {
-	result := ur.db.Model(user).Clauses(clause.Returning{}).Where("id=?", userId).Updates(models.User{
-		Avator:       user.Avator,
-		DisplayName:  user.DisplayName,
-		ProfileImage: user.ProfileImage,
-		Bio:          user.Bio,
-		Location:     user.Location,
-		Website:      user.Website,
-		UpdatedAt:    time.Now(),
+	result := ur.db.Model(user).Clauses(clause.Returning{}).Where("id=?", userId).Updates(map[string]interface{}{
+		"avator":        user.Avator,
+		"display_name":  user.DisplayName,
+		"profile_image": user.ProfileImage,
+		"bio":           user.Bio,
+		"location":      user.Location,
+		"website":       user.Website,
 	})
 	if result.Error != nil {
 		return result.Error

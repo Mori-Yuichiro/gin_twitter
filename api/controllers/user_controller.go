@@ -120,19 +120,19 @@ func (uc *userController) GetUserByUserId(c *gin.Context) {
 }
 
 func (uc *userController) UpdateUser(c *gin.Context) {
-	id, ok := c.Params.Get("userId")
-	if !ok {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "invalid parameter"})
+	userId, err := strconv.ParseUint(c.Param("userId"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	userId, _ := strconv.Atoi(id)
 
 	user := models.User{}
 	if err := c.Bind(&user); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
-	err := uc.uu.UpdateUser(user, uint(userId))
+
+	err = uc.uu.UpdateUser(user, uint(userId))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
