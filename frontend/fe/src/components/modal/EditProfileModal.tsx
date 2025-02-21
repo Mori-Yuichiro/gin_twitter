@@ -13,6 +13,14 @@ const EditProfileModal = memo(({
 }) => {
     const {
         setOpenProfileModal,
+        profileImage,
+        avator,
+        profileInputRef,
+        avatarInputRef,
+        fileOnClickProfile,
+        fileOnClickAvatar,
+        fileInputProfile,
+        fileInputAvatar,
         register,
         handleSubmit,
         errors,
@@ -42,6 +50,49 @@ const EditProfileModal = memo(({
                                 </div>
                                 {errors && <p className="text-red-500">{errors.displayName?.message}</p>}
                                 <div className="h-48 bg-slate-400 w-full relative">
+                                    <div className="h-full w-full">
+                                        {profileImage && <img
+                                            className="w-full h-full object-cover"
+                                            src={profileImage}
+                                            alt="プロフィール画像"
+                                        />}
+                                    </div>
+                                    <div>
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            ref={profileInputRef}
+                                            onChange={fileInputProfile}
+                                        />
+                                        <Button
+                                            className="absolute top-1/2 right-1/2"
+                                            onClick={fileOnClickProfile}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 42 42"><path fill="currentColor" d="M14.41 22.58c0 3.359 2.73 6.09 6.09 6.09c3.359 0 6.09-2.73 6.09-6.09s-2.73-6.09-6.09-6.09a6.095 6.095 0 0 0-6.09 6.09zM3.5 36.5h34c2.63 0 3-.37 3-3v-23c0-2.462-.38-3-3-3h-10c0-2.57-.42-3-3-3h-8c-2.55 0-3 .48-3 3h-10c-2.58 0-3 .692-3 3v23c0 2.6.38 3 3 3zm7.64-13.92c0-5.17 4.19-9.359 9.36-9.359s9.359 4.189 9.359 9.359s-4.189 9.359-9.359 9.359s-9.36-4.189-9.36-9.359z" /></svg>
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-400 rounded-full max-h-48 max-w-48 h-24 w-24 relative">
+                                    {avator && <img
+                                        src={avator}
+                                        alt="アイコン"
+                                        className="rounded-full w-full h-full object-cover"
+                                    />}
+                                    <div>
+                                        <input
+                                            type="file"
+                                            multiple
+                                            className="hidden"
+                                            ref={avatarInputRef}
+                                            onChange={fileInputAvatar}
+                                        />
+                                        <Button
+                                            className="absolute top-1/2 right-1/2 cursor-pointer translate-x-1/2 translate-y-[-50%]"
+                                            onClick={fileOnClickAvatar}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 42 42"><path fill="currentColor" d="M14.41 22.58c0 3.359 2.73 6.09 6.09 6.09c3.359 0 6.09-2.73 6.09-6.09s-2.73-6.09-6.09-6.09a6.095 6.095 0 0 0-6.09 6.09zM3.5 36.5h34c2.63 0 3-.37 3-3v-23c0-2.462-.38-3-3-3h-10c0-2.57-.42-3-3-3h-8c-2.55 0-3 .48-3 3h-10c-2.58 0-3 .692-3 3v23c0 2.6.38 3 3 3zm7.64-13.92c0-5.17 4.19-9.359 9.36-9.359s9.359 4.189 9.359 9.359s-4.189 9.359-9.359 9.359s-9.36-4.189-9.36-9.359z" /></svg>
+                                        </Button>
+                                    </div>
                                 </div>
                                 <div className="flex flex-col gap-y-3">
                                     <input

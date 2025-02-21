@@ -16,9 +16,9 @@ export const fileUpload = (inputRef: RefObject<HTMLInputElement | null>) => {
     }
 }
 
-export const uploadImage = async (instance: AxiosInstance, imageData: string | ArrayBuffer | null) => {
-    return await instance.post('/image/upload', {
-        imageData
+export const uploadImage = async (instance: AxiosInstance, data: string | ArrayBuffer | null) => {
+    return await instance.post('/api/image/upload', {
+        data
     },
         { withCredentials: true }
     );
