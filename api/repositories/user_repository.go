@@ -1,15 +1,18 @@
 package repositories
 
 import (
+	"fmt"
 	"gin-twitter/models"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type IUserRepository interface {
 	GetUserByEmail(user *models.User, email string) error
 	GetUserByUserId(user *models.User, userId uint) error
 	CreateUser(user *models.User) error
+	UpdateUser(user *models.User, userId uint) error
 }
 
 type userRespository struct {
@@ -39,6 +42,24 @@ func (ur *userRespository) GetUserByUserId(user *models.User, userId uint) error
 func (ur *userRespository) CreateUser(user *models.User) error {
 	if err := ur.db.Create(user).Error; err != nil {
 		return err
+	}
+	return nil
+}
+
+func (ur *userRespository) UpdateUser(user *models.User, userId uint) error {
+	result := ur.db.Model(user).Clauses(clause.Returning{}).Where("id=?", userId).Updates(map[string]interface{}{
+		"avator":        user.Avator,
+		"display_name":  user.DisplayName,
+		"profile_image": user.ProfileImage,
+		"bio":           user.Bio,
+		"location":      user.Location,
+		"website":       user.Website,
+	})
+	if result.Error != nil {
+		return result.Error
+	}
+	if result.RowsAffected < 1 {
+		return fmt.Errorf("object does not exist")
 	}
 	return nil
 }

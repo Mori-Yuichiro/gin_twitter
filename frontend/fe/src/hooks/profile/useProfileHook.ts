@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useErrorHook } from "../error/useErrorHook";
 import { ProfileType } from "@/app/types/profile";
-import { useAppSelector } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { toggleProfileModal } from "@/store/slice/slice";
 
 export const useProfileHook = () => {
     const { instance } = axiosInstance();
@@ -14,8 +15,10 @@ export const useProfileHook = () => {
     const { switchErrorHandling } = useErrorHook();
     const [profile, setProfile] = useState<ProfileType | null>(null);
     const [tab, setTab] = useState<"posts" | "comments" | "comments" | "retweets" | "articles" | "medias" | "likes">("posts");
+    const openProfileModal = useAppSelector(state => state.slice.openProfileModal);
     const reload = useAppSelector(state => state.slice.reload);
     const currentUser = useAppSelector(state => state.slice.currentUser);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,6 +44,8 @@ export const useProfileHook = () => {
         profile,
         currentUser,
         tab,
-        setTab
+        setTab,
+        openProfileModal,
+        setOpenProfileModal: () => dispatch(toggleProfileModal(!openProfileModal))
     };
 }

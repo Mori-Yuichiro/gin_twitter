@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface State {
     openSignUpModal: boolean;
     openLogInModal: boolean;
+    openProfileModal: boolean;
     currentUser: UserType | null;
     reload: boolean;
 }
@@ -11,6 +12,7 @@ interface State {
 const initialState: State = {
     openSignUpModal: false,
     openLogInModal: false,
+    openProfileModal: false,
     currentUser: null,
     reload: false
 };
@@ -25,6 +27,9 @@ const slice = createSlice({
         toggleLogInModal(state, action: PayloadAction<boolean>) {
             state.openLogInModal = action.payload;
         },
+        toggleProfileModal(state, action: PayloadAction<boolean>) {
+            state.openProfileModal = action.payload;
+        },
         changeCurrentUser(state, action: PayloadAction<UserType>) {
             state.currentUser = action.payload;
         },
@@ -37,6 +42,7 @@ const slice = createSlice({
 export const {
     toggleSignupModal,
     toggleLogInModal,
+    toggleProfileModal,
     changeCurrentUser,
     toggleReload,
 } = slice.actions;

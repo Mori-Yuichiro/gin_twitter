@@ -20,6 +20,7 @@ type IUserController interface {
 	CsrfToken(c *gin.Context)
 	GetUserIdByToken(c *gin.Context)
 	GetUserByUserId(c *gin.Context)
+	UpdateUser(c *gin.Context)
 }
 
 type userController struct {
@@ -116,4 +117,25 @@ func (uc *userController) GetUserByUserId(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, userRes)
+}
+
+func (uc *userController) UpdateUser(c *gin.Context) {
+	userId, err := strconv.ParseUint(c.Param("userId"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	user := models.User{}
+	if err := c.Bind(&user); err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = uc.uu.UpdateUser(user, uint(userId))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"status": "success"})
 }
