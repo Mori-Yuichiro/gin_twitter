@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "@/lib/axiosInstance";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { changeCurrentUser } from "@/store/slice/slice";
+import { changeCurrentUser, toggleOpenTweetModal } from "@/store/slice/slice";
 import { UserType } from "@/app/types/user";
 import { useRouter } from "next/navigation";
 
@@ -18,6 +18,7 @@ type ItemListType = {
 export const useLeftSidebarHook = () => {
     const { instance } = axiosInstance();
     const currentUser = useAppSelector(state => state.slice.currentUser);
+    const openTweetModal = useAppSelector(state => state.slice.openTweetModal);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { switchErrorHandling } = useErrorHook();
@@ -143,6 +144,8 @@ export const useLeftSidebarHook = () => {
     }, [])
 
     return {
+        openTweetModal,
+        setOpenTweetModal: () => dispatch(toggleOpenTweetModal(!openTweetModal)),
         ITEM_LIST,
         currentUser,
         onClickLogOut

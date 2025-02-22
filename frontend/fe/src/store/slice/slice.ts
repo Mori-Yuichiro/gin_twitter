@@ -7,6 +7,7 @@ interface State {
     openProfileModal: boolean;
     currentUser: UserType | null;
     reload: boolean;
+    openTweetModal: boolean;
 }
 
 const initialState: State = {
@@ -14,7 +15,8 @@ const initialState: State = {
     openLogInModal: false,
     openProfileModal: false,
     currentUser: null,
-    reload: false
+    reload: false,
+    openTweetModal: false
 };
 
 const slice = createSlice({
@@ -35,6 +37,9 @@ const slice = createSlice({
         },
         toggleReload(state, action: PayloadAction<boolean>) {
             state.reload = action.payload;
+        },
+        toggleOpenTweetModal(state, action: PayloadAction<boolean>) {
+            state.openTweetModal = action.payload;
         }
     }
 });
@@ -45,5 +50,6 @@ export const {
     toggleProfileModal,
     changeCurrentUser,
     toggleReload,
+    toggleOpenTweetModal
 } = slice.actions;
 export default slice.reducer;
