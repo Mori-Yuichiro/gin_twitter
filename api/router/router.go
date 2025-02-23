@@ -20,6 +20,7 @@ func NewRouter(
 	cc controllers.ICommentController,
 	rc controllers.IRetweetController,
 	fc controllers.IFavoriteController,
+	bc controllers.IBookmarkController,
 ) *gin.Engine {
 	r := gin.Default()
 
@@ -109,6 +110,8 @@ func NewRouter(
 		twid.DELETE("/retweet", rc.DeleteRetweet)
 		twid.POST("/favorite", fc.CreateFavorite)
 		twid.DELETE("/favorite", fc.DeleteFavorite)
+		twid.POST("/bookmark", bc.CreateBookmark)
+		twid.DELETE("/bookmark", bc.DeleteBookmark)
 	}
 
 	comment := api.Group("/comment")

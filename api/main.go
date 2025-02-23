@@ -49,6 +49,10 @@ func main() {
 	favoriteUsecase := usecases.NewFavoriteUsecase(favoriteRepository)
 	favoriteController := controllers.NewFavoriteController(favoriteUsecase)
 
+	bookmarkRepository := repositories.NewBookmarkRepository(db)
+	bookmarkUsecase := usecases.NewBookmarkUsecase(bookmarkRepository)
+	bookmarkController := controllers.NewBookmarkController(bookmarkUsecase)
+
 	r := router.NewRouter(
 		imageController,
 		userController,
@@ -56,6 +60,7 @@ func main() {
 		commentController,
 		retweetController,
 		favoriteController,
+		bookmarkController,
 	)
 
 	log.Println("Server Started")
