@@ -128,6 +128,20 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 				}
 			}
 
+			bookmarks := []models.BookmarkResponse{}
+			if len(v.Bookmarks) > 0 {
+				for _, book := range v.Bookmarks {
+					bookmark := models.BookmarkResponse{
+						ID:        book.ID,
+						UserId:    book.UserId,
+						TweetId:   book.TweetId,
+						CreatedAt: book.CreatedAt,
+						UpdatedAt: book.UpdatedAt,
+					}
+					bookmarks = append(bookmarks, bookmark)
+				}
+			}
+
 			tweet := models.TweetResponse{
 				ID:        v.ID,
 				Content:   v.Content,
@@ -137,6 +151,7 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 				User:      tweetUser,
 				Retweets:  retweets,
 				Favorites: favorites,
+				Bookmarks: bookmarks,
 			}
 
 			tweets = append(tweets, tweet)
@@ -219,6 +234,20 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 				}
 			}
 
+			retTwBooks := []models.BookmarkResponse{}
+			if len(ret.Tweet.Bookmarks) > 0 {
+				for _, retTweetBook := range ret.Tweet.Bookmarks {
+					favTwBook := models.BookmarkResponse{
+						ID:        retTweetBook.ID,
+						UserId:    retTweetBook.UserId,
+						TweetId:   retTweetBook.TweetId,
+						CreatedAt: retTweetBook.CreatedAt,
+						UpdatedAt: retTweetBook.UpdatedAt,
+					}
+					retTwBooks = append(retTwBooks, favTwBook)
+				}
+			}
+
 			tweet := models.TweetResponse{
 				ID:        ret.Tweet.ID,
 				Content:   ret.Tweet.Content,
@@ -289,6 +318,20 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 				}
 			}
 
+			favTwBooks := []models.BookmarkResponse{}
+			if len(fav.Tweet.Bookmarks) > 0 {
+				for _, favTweetBook := range fav.Tweet.Bookmarks {
+					favTwBook := models.BookmarkResponse{
+						ID:        favTweetBook.ID,
+						UserId:    favTweetBook.UserId,
+						TweetId:   favTweetBook.TweetId,
+						CreatedAt: favTweetBook.CreatedAt,
+						UpdatedAt: favTweetBook.UpdatedAt,
+					}
+					favTwBooks = append(favTwBooks, favTwBook)
+				}
+			}
+
 			tweet := models.TweetResponse{
 				ID:        fav.Tweet.ID,
 				Content:   fav.Tweet.Content,
@@ -298,6 +341,7 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 				User:      favTwUser,
 				Retweets:  favTwRets,
 				Favorites: favTwFavs,
+				Bookmarks: favTwBooks,
 			}
 
 			favorite := models.FavoriteResponse{

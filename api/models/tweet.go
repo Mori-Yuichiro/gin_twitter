@@ -12,6 +12,7 @@ type Tweet struct {
 	Comments  []Comment  `json:"comments"`
 	Retweets  []Retweet  `json:"retweets"`
 	Favorites []Favorite `json:"favorites"`
+	Bookmarks []Bookmark `json:"bookmarks"`
 }
 
 type TweetResponse struct {
@@ -24,4 +25,5 @@ type TweetResponse struct {
 	Comments  []CommentReponse   `json:"comments"`
 	Retweets  []RetweetResponse  `json:"retweets"`
 	Favorites []FavoriteResponse `json:"favorites"`
+	Bookmarks []BookmarkResponse `json:"bookmarks"`
 }

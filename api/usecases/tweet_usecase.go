@@ -116,6 +116,20 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			}
 		}
 
+		bookmarks := []models.BookmarkResponse{}
+		if len(v.Bookmarks) > 0 {
+			for _, book := range v.Bookmarks {
+				bookmark := models.BookmarkResponse{
+					ID:        book.ID,
+					UserId:    book.UserId,
+					TweetId:   book.TweetId,
+					CreatedAt: book.CreatedAt,
+					UpdatedAt: book.UpdatedAt,
+				}
+				bookmarks = append(bookmarks, bookmark)
+			}
+		}
+
 		tweet := models.TweetResponse{
 			ID:        v.ID,
 			Content:   v.Content,
@@ -126,6 +140,7 @@ func (tu *tweetUsecase) GetAllTweet() ([]models.TweetResponse, error) {
 			Comments:  comments,
 			Retweets:  retweets,
 			Favorites: favorites,
+			Bookmarks: bookmarks,
 		}
 		resTweets = append(resTweets, tweet)
 	}
@@ -213,6 +228,20 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		}
 	}
 
+	bookmarks := []models.BookmarkResponse{}
+	if len(tweet.Bookmarks) > 0 {
+		for _, book := range tweet.Bookmarks {
+			bookmark := models.BookmarkResponse{
+				ID:        book.ID,
+				UserId:    book.UserId,
+				TweetId:   book.TweetId,
+				CreatedAt: book.CreatedAt,
+				UpdatedAt: book.UpdatedAt,
+			}
+			bookmarks = append(bookmarks, bookmark)
+		}
+	}
+
 	resTweet := models.TweetResponse{
 		ID:        tweet.ID,
 		Content:   tweet.Content,
@@ -223,6 +252,7 @@ func (tu *tweetUsecase) GetTweetById(tweetId uint) (models.TweetResponse, error)
 		Comments:  comments,
 		Retweets:  retweets,
 		Favorites: favorites,
+		Bookmarks: bookmarks,
 		// User:      models.UserResponse(tweet.User),
 	}
 

@@ -98,6 +98,39 @@ export const useTweetHook = (id: number) => {
         }
     }, [reload])
 
+    const onClickCreateBookmark = useCallback(async () => {
+        try {
+            const { status } = await instance.post(
+                `/api/tweets/${id}/bookmark`,
+                undefined,
+                { withCredentials: true }
+            );
+            if (status === 201) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload])
+
+    const onClickDeleteBookmark = useCallback(async () => {
+        try {
+            const { status } = await instance.delete(
+                `/api/tweets/${id}/bookmark`,
+                { withCredentials: true }
+            );
+            if (status === 200) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                console.error(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                console.error(err.message);
+            }
+        }
+    }, [reload])
+
     return {
         onClickDeleteTweet,
         currentUser,
@@ -105,6 +138,8 @@ export const useTweetHook = (id: number) => {
         onClickCreateRetweet,
         onClickDeleteRetweet,
         onClickCreateFavorite,
-        onClickDeleteFavorite
+        onClickDeleteFavorite,
+        onClickCreateBookmark,
+        onClickDeleteBookmark
     };
 }
