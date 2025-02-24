@@ -16,5 +16,6 @@ func main() {
 		&models.Comment{},
 		&models.Retweet{},
 		&models.Favorite{},
+		&models.Bookmark{},
 	)
 }
