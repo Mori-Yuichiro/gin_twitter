@@ -120,5 +120,11 @@ func NewRouter(
 		comment.POST("", cc.CreateComment)
 	}
 
+	bookmark := api.Group("/bookmarks")
+	bookmark.Use(middlewares.AuthMiddleware)
+	{
+		bookmark.GET("", bc.GetBookmarksByUserId)
+	}
+
 	return r
 }
