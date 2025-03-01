@@ -21,6 +21,7 @@ func NewRouter(
 	rc controllers.IRetweetController,
 	fc controllers.IFavoriteController,
 	bc controllers.IBookmarkController,
+	relc controllers.IRelationshipController,
 ) *gin.Engine {
 	r := gin.Default()
 
@@ -96,6 +97,8 @@ func NewRouter(
 		uid := user.Group("/:userId")
 		uid.GET("", uc.GetUserByUserId)
 		uid.PUT("/edit", uc.UpdateUser)
+		uid.POST("/follow", relc.CreateRelationship)
+		uid.DELETE("/follow", relc.DeleteRelationship)
 	}
 
 	tweet := api.Group("/tweets")
