@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"gorm.io/gorm"
 )
 
 type IRelationshipController interface {
@@ -37,11 +38,12 @@ func (rc *relationshipController) CreateRelationship(c *gin.Context) {
 	}
 	followedId, _ := strconv.Atoi(id)
 
+	db := &gorm.DB{}
 	relationship := models.Relationship{
 		FollowerId: followerId,
 		FollowedId: uint(followedId),
 	}
-	if err := relationship.BeforeCreate(); err != nil {
+	if err := relationship.BeforeCreate(db); err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}

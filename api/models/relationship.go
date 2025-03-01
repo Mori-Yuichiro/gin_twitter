@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Relationship struct {
@@ -25,10 +27,9 @@ type RelationshipResponse struct {
 	Followed   UserResponse `json:"followed"`
 }
 
-func (r *Relationship) BeforeCreate() error {
+func (r *Relationship) BeforeCreate(db *gorm.DB) error {
 	if r.FollowerId == r.FollowedId {
 		return errors.New("follower and followed cannot be the same")
 	}
-
 	return nil
 }
