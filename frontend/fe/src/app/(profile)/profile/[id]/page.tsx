@@ -17,7 +17,9 @@ const Profile = memo(() => {
         tab,
         setTab,
         openProfileModal,
-        setOpenProfileModal
+        setOpenProfileModal,
+        onClickFollow,
+        onClickUnFollow
     } = useProfileHook();
 
     return (
@@ -48,7 +50,19 @@ const Profile = memo(() => {
                                         onClick={setOpenProfileModal}
                                     >Edit Profile</Button>
                                 ) : (
-                                    <></>
+                                    <>
+                                        {(profile.followers.some(follower => follower.followerId === currentUser?.id)) ? (
+                                            <Button
+                                                className="rounded-full bg-slate-400 text-white px-2 py-1"
+                                                onClick={onClickUnFollow}
+                                            >Following</Button>
+                                        ) : (
+                                            <Button
+                                                className="rounded-full border border-black px-2 py-1"
+                                                onClick={onClickFollow}
+                                            >Follow</Button>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>

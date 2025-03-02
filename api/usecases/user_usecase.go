@@ -357,6 +357,32 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 		}
 	}
 
+	followers := []models.RelationshipResponse{}
+	if len(user.Followers) > 0 {
+		for _, follower := range user.Followers {
+			followers = append(followers, models.RelationshipResponse{
+				ID:         follower.ID,
+				FollowerId: follower.FollowerId,
+				FollowedId: follower.FollowedId,
+				CreatedAt:  follower.CreatedAt,
+				UpdatedAt:  follower.UpdatedAt,
+			})
+		}
+	}
+
+	followeds := []models.RelationshipResponse{}
+	if len(user.Followeds) > 0 {
+		for _, followed := range user.Followeds {
+			followeds = append(followeds, models.RelationshipResponse{
+				ID:         followed.ID,
+				FollowerId: followed.FollowerId,
+				FollowedId: followed.FollowedId,
+				CreatedAt:  followed.CreatedAt,
+				UpdatedAt:  followed.UpdatedAt,
+			})
+		}
+	}
+
 	resUser := models.UserResponse{
 		ID:           user.ID,
 		Name:         user.Name,
@@ -374,6 +400,8 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 		Comments:     comments,
 		Retweets:     retweets,
 		Favorites:    favorites,
+		Followers:    followers,
+		Followeds:    followeds,
 	}
 
 	return resUser, nil

@@ -1,3 +1,5 @@
+import { RelationshipType } from "./relationship";
+
 export type UserType = {
     id: number;
     name: string;
@@ -11,4 +13,6 @@ export type UserType = {
     website: string;
     createdAt: string;
     updatedAt: string;
+    followers: RelationshipType[];
+    followeds: RelationshipType[];
 }
