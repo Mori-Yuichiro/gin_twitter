@@ -1,12 +1,12 @@
 import axiosInstance from "@/lib/axiosInstance"
 import { AxiosError } from "axios";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useErrorHook } from "../error/useErrorHook";
 import { ProfileType } from "@/app/types/profile";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { toggleProfileModal } from "@/store/slice/slice";
+import { toggleProfileModal, toggleReload } from "@/store/slice/slice";
 
 export const useProfileHook = () => {
     const { instance } = axiosInstance();
@@ -19,6 +19,39 @@ export const useProfileHook = () => {
     const reload = useAppSelector(state => state.slice.reload);
     const currentUser = useAppSelector(state => state.slice.currentUser);
     const dispatch = useAppDispatch();
+
+    const onClickFollow = useCallback(async () => {
+        try {
+            const { status } = await instance.post(
+                `/api/users/${id}/follow`,
+                null,
+                { withCredentials: true }
+            );
+            if (status === 201) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                toast(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                toast(err.message);
+            }
+        }
+    }, [profile])
+
+    const onClickUnFollow = useCallback(async () => {
+        try {
+            const { status } = await instance.delete(
+                `/api/users/${id}/follow`,
+                { withCredentials: true }
+            );
+            if (status === 200) dispatch(toggleReload(!reload));
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                toast(switchErrorHandling(err.response?.data));
+            } else if (err instanceof Error) {
+                toast(err.message);
+            }
+        }
+    }, [profile])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,6 +79,8 @@ export const useProfileHook = () => {
         tab,
         setTab,
         openProfileModal,
-        setOpenProfileModal: () => dispatch(toggleProfileModal(!openProfileModal))
+        setOpenProfileModal: () => dispatch(toggleProfileModal(!openProfileModal)),
+        onClickFollow,
+        onClickUnFollow
     };
 }
