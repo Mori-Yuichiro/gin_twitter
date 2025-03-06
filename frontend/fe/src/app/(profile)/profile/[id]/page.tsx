@@ -72,10 +72,10 @@ const Profile = memo(() => {
                             <p>{profile.website}</p>
                             <div className="flex gap-x-3">
                                 <Link href={`/profile/${profile.id}/followeds`}>
-                                    <p>0 Followings</p>
+                                    <p>{profile.followeds.length} Followings</p>
                                 </Link>
                                 <Link href={`/profile/${profile.id}/followers`}>
-                                    <p>0 Followers</p>
+                                    <p>{profile.followers.length} Followers</p>
                                 </Link>
                             </div>
                         </div>
