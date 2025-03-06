@@ -8,4 +8,6 @@ export type ProfileType = UserType &
 { tweets: TweetType[] } &
 { comments: CommentType[] } &
 { retweets: RetweetType[] } &
-{ favorites: FavoriteType[] };
+{ favorites: FavoriteType[] } &
+{ followers: RelationshipType[] } &
+{ followeds: RelationshipType[] };

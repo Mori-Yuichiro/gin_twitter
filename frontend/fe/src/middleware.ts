@@ -25,7 +25,9 @@ export const config = {
         "/top",
         "/tweets\/([0-9]+)",
         "/profile\/([0-9]+)",
-        // "/bookmarks",
+        "/profile\/([0-9]+)/followeds",
+        "/profile\/([0-9]+)/followers",
+        "/bookmarks",
         // "/rooms",
         // "/rooms\/([0-9]+)",
         // "/notifications"

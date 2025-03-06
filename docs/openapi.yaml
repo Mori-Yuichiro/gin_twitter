@@ -1,5 +1,5 @@
 # Swaggerの起動: Opt + Shift + p
-openapi: "3.0.3"
+openapi: "3.1.3"
 
 info:
   title: twitter-clone-gin
@@ -857,88 +857,6 @@ paths:
       responses:
         200:
           description: Success
-  /api/users/{userId}/followers:
-    description: get followers
-    parameters:
-      - name: userId
-        in: path
-        schema:
-          type: integer
-        required: true
-    get:
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  followers:
-                    type: array
-                    example:
-                      [
-                        {
-                          id: 1,
-                          name: "test",
-                          password: "Ppppppppp1",
-                          display_name: "test",
-                          avator: "image",
-                          profile_image: "profile_image",
-                          bio: "test userです",
-                          location: "東京",
-                          website: "http://localhost:3000",
-                          created_at: 2024-12-17,
-                          updated_at: 2024-12-17,
-                          tweets: null,
-                          favorites: null,
-                          comments: null,
-                          retweets: null,
-                          followers: null,
-                          followeds: null,
-                        },
-                      ]
-  /api/users/{userId}/followeds:
-    description: get followers
-    parameters:
-      - name: userId
-        in: path
-        schema:
-          type: integer
-        required: true
-    get:
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  followeds:
-                    type: array
-                    example:
-                      [
-                        {
-                          id: 1,
-                          name: "test",
-                          password: "Ppppppppp1",
-                          display_name: "test",
-                          avator: "image",
-                          profile_image: "profile_image",
-                          bio: "test userです",
-                          location: "東京",
-                          website: "http://localhost:3000",
-                          created_at: 2024-12-17,
-                          updated_at: 2024-12-17,
-                          tweets: null,
-                          favorites: null,
-                          comments: null,
-                          retweets: null,
-                          followers: null,
-                          followeds: null,
-                        },
-                      ]
   /api/entry:
     description: create entry
     post:

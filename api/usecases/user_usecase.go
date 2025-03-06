@@ -360,12 +360,44 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 	followers := []models.RelationshipResponse{}
 	if len(user.Followers) > 0 {
 		for _, follower := range user.Followers {
+			frFollower := models.UserResponse{
+				ID:           follower.Follower.ID,
+				Name:         follower.Follower.Name,
+				Email:        follower.Follower.Email,
+				Password:     follower.Follower.Password,
+				Avator:       follower.Follower.Avator,
+				DisplayName:  follower.Follower.DisplayName,
+				ProfileImage: follower.Follower.ProfileImage,
+				Bio:          follower.Follower.Bio,
+				Location:     follower.Follower.Location,
+				Website:      follower.Follower.Website,
+				CreatedAt:    follower.Follower.CreatedAt,
+				UpdatedAt:    follower.Follower.UpdatedAt,
+			}
+
+			frFollowed := models.UserResponse{
+				ID:           follower.Followed.ID,
+				Name:         follower.Followed.Name,
+				Email:        follower.Followed.Email,
+				Password:     follower.Followed.Password,
+				Avator:       follower.Followed.Avator,
+				DisplayName:  follower.Followed.DisplayName,
+				ProfileImage: follower.Followed.ProfileImage,
+				Bio:          follower.Followed.Bio,
+				Location:     follower.Followed.Location,
+				Website:      follower.Followed.Website,
+				CreatedAt:    follower.Followed.CreatedAt,
+				UpdatedAt:    follower.Followed.UpdatedAt,
+			}
+
 			followers = append(followers, models.RelationshipResponse{
 				ID:         follower.ID,
 				FollowerId: follower.FollowerId,
 				FollowedId: follower.FollowedId,
 				CreatedAt:  follower.CreatedAt,
 				UpdatedAt:  follower.UpdatedAt,
+				Follower:   frFollower,
+				Followed:   frFollowed,
 			})
 		}
 	}
@@ -373,12 +405,44 @@ func (uu *userUsecase) GetUserByUserId(userId uint) (models.UserResponse, error)
 	followeds := []models.RelationshipResponse{}
 	if len(user.Followeds) > 0 {
 		for _, followed := range user.Followeds {
+			fdFollower := models.UserResponse{
+				ID:           followed.Follower.ID,
+				Name:         followed.Follower.Name,
+				Email:        followed.Follower.Email,
+				Password:     followed.Follower.Password,
+				Avator:       followed.Follower.Avator,
+				DisplayName:  followed.Follower.DisplayName,
+				ProfileImage: followed.Follower.ProfileImage,
+				Bio:          followed.Follower.Bio,
+				Location:     followed.Follower.Location,
+				Website:      followed.Follower.Website,
+				CreatedAt:    followed.Follower.CreatedAt,
+				UpdatedAt:    followed.Follower.UpdatedAt,
+			}
+
+			fdFollowed := models.UserResponse{
+				ID:           followed.Followed.ID,
+				Name:         followed.Followed.Name,
+				Email:        followed.Followed.Email,
+				Password:     followed.Followed.Password,
+				Avator:       followed.Followed.Avator,
+				DisplayName:  followed.Followed.DisplayName,
+				ProfileImage: followed.Followed.ProfileImage,
+				Bio:          followed.Followed.Bio,
+				Location:     followed.Followed.Location,
+				Website:      followed.Followed.Website,
+				CreatedAt:    followed.Followed.CreatedAt,
+				UpdatedAt:    followed.Followed.UpdatedAt,
+			}
+
 			followeds = append(followeds, models.RelationshipResponse{
 				ID:         followed.ID,
 				FollowerId: followed.FollowerId,
 				FollowedId: followed.FollowedId,
 				CreatedAt:  followed.CreatedAt,
 				UpdatedAt:  followed.UpdatedAt,
+				Follower:   fdFollower,
+				Followed:   fdFollowed,
 			})
 		}
 	}

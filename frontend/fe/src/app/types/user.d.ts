@@ -13,6 +13,6 @@ export type UserType = {
     website: string;
     createdAt: string;
     updatedAt: string;
-    followers: RelationshipType[];
-    followeds: RelationshipType[];
+    // followers: RelationshipType[];
+    // followeds: RelationshipType[];
 }
